@@ -16,7 +16,7 @@ DEPLOYMENTFOLDERS += assetsFolder
 
 # Add more folders to ship with the application here
 
-RESOURCES += #    resources.qrc # uncomment for publishing
+RESOURCES +=  #    resources.qrc # uncomment for publishing
 
 # NOTE: for PUBLISHING, perform the following steps:
 # 1. comment the DEPLOYMENTFOLDERS += qmlFolder line above, to avoid shipping your qml files with the application (instead they get compiled to the app binary)
@@ -49,3 +49,15 @@ win32 {
 macx {
     ICON = macx/app_icon.icns
 }
+
+DISTFILES += \
+    qml/entities/WelcomeMenu.qml \
+    qml/scenes/sceneElements/SceneBase.qml \
+    qml/scenes/dialogs/DialogBase.qml \
+    qml/scenes/sceneElements/MenuScene.qml \
+    qml/common/PlatformerImageButton.qml \
+    qml/common/AudioManager.qml \
+    qml/scenes/sceneElements/GameScene.qml \
+    qml/scenes/sceneElements/LoadScene.qml \
+    qml/scenes/sceneElements/FinishScene.qml \
+    qml/scenes/sceneElements/OperationInterface.qml
