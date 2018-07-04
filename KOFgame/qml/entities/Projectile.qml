@@ -12,6 +12,7 @@ EntityBase {
     property double x2
     property double y2
     property int imagenumber: 1
+    property bool face:true
     MultiResolutionImage {
         id: monsterImage
         fillMode:Image.PreserveAspectCrop
@@ -25,8 +26,8 @@ EntityBase {
 
     PropertyAnimation on x {
         from: x2
-        to: destination.x
-        duration: moveDuration //移动持续时间
+        to: x2+destination.x
+        duration: 1500 //移动持续时间
     }
 
     PropertyAnimation on y {
@@ -40,7 +41,14 @@ EntityBase {
         running:true
         repeat: true
         onTriggered: {
-            console.debug("image:"+imagenumber)
+            if(player.x - enemy.x<0)
+            {
+                face=true
+            }
+            else{
+                face=false
+            }
+
             imagenumber+=1
             selectfireImage()
         }
@@ -58,20 +66,41 @@ EntityBase {
         collisionTestingOnlyMode: true
     }
     function selectfireImage(){
-        if(imagenumber==4)
+        if(face)
         {
-            imagenumber=1
-        }
-        switch(imagenumber)
+            if(imagenumber==4)
+            {
+                imagenumber=1
+            }
+            switch(imagenumber)
+            {
+
+            case 1:monsterImage.source="../../assets/player/action/fire/zidan2.png";break;
+
+            case 2:monsterImage.source="../../assets/player/action/fire/zidan3.png";break;
+
+            case 3:monsterImage.source="../../assets/player/action/fire/zidan4.png";break;
+
+
+            }
+        }else
         {
+            if(imagenumber==4)
+            {
+                imagenumber=1
+            }
+            switch(imagenumber)
+            {
 
-        case 1:monsterImage.source="../../assets/player/action/fire/zidan2.png";break;
+            case 1:monsterImage.source="../../assets/player/action/fire/zidan12.png";break;
 
-        case 2:monsterImage.source="../../assets/player/action/fire/zidan3.png";break;
+            case 2:monsterImage.source="../../assets/player/action/fire/zidan13.png";break;
 
-        case 3:monsterImage.source="../../assets/player/action/fire/zidan4.png";break;
+            case 3:monsterImage.source="../../assets/player/action/fire/zidan14.png";break;
 
 
+            }
         }
+
     }
 }

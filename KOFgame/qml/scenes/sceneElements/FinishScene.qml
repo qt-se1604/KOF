@@ -6,18 +6,13 @@ import "../../common"
 SceneBase {
     id: settlementscene
 
-    property double gamescore
+    property bool gameWon
     signal togamepress
-    BusyIndicator {
-        width: 100
-        height: 100
-        anchors.centerIn: parent
-        running: Image.Loading
-    }
+
     Text{
         id: scoreshow
         anchors.centerIn: parent
-        text:"Score:" + gamescore
+        text: gameWon ? "You won :)" : "You lost"
     }
     PlatformerImageButton{
         width: 60
@@ -27,7 +22,13 @@ SceneBase {
         anchors.top: settlementscene.gameWindowAnchorItem.top
         anchors.topMargin: 10
         text:"Back Menu"
-        onClicked:backButtonPressed()
+        onClicked:{
+            gameScene.viewPort.player.blood=100
+            gameScene.viewPort.enemy.blood=100
+            gameScene.viewPort.gametruetime.timeeetotal.restart()
+            gameScene.viewPort.gametruetime.totaltime = gameScene.viewPort.gametruetime.timeeetotal.interval/1000
+            backButtonPressed()
+        }
     }
 
     PlatformerImageButton{
@@ -38,6 +39,14 @@ SceneBase {
         anchors.top: settlementscene.gameWindowAnchorItem.top
         anchors.topMargin: 10
         text:"Again"
-        onClicked:togamepress()
+        onClicked:
+        {
+            togamepress()
+            gameScene.viewPort.player.blood=100
+            gameScene.viewPort.enemy.blood=100
+            gameScene.viewPort.gametruetime.timeeetotal.restart()
+            gameScene.viewPort.gametruetime.totaltime = gameScene.viewPort.gametruetime.timeeetotal.interval/1000
+
+        }
     }
 }

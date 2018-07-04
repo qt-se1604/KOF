@@ -13,6 +13,9 @@ GameWindow {
 	screenHeight: 640
 
     property int playeridentity:0
+    property int settime:0
+    property int setmusic: 0
+    property int setbackground:0
 
     onActiveSceneChanged:{
         audioManager.handleMusic()
@@ -42,9 +45,16 @@ GameWindow {
                     break
             }
         }
-		Component.onCompleted: {
-			sendState("login", true)
-		}
+        onTimeChanged: {
+            settime  = time
+        }
+        onMusicChanged: {
+            setmusic = music
+        }
+        onBackgroundChanged: {
+            setbackground = background
+        }
+
     }
 
     onStateChanged: {
@@ -72,13 +82,39 @@ GameWindow {
         id: menuScene
         onServercomein: {
             gameWindow.playeridentity = 1
+            gameWindow.state =  "set"
         }
         onClientcomein: {
             gameWindow.playeridentity = 2
-        }
-        onEntergamePressed:{
-            console.debug("3232")
             gameWindow.state = "loading"
+        }
+//        onEntergamePressed:{
+//            gameWindow.state = "loading"
+//        }
+    }
+
+    SetScene{
+        id:setScene
+        onStartgamenow: {
+            gameWindow.state =  "loading"
+        }
+        onTime60: {
+            settime = 60
+        }
+        onTime8: {
+            settime  = 90
+        }
+        onMusic1: {
+            setmusic = 1
+        }
+        onMusic2: {
+            setmusic = 2
+        }
+        onBackground1: {
+            setbackground = 1
+        }
+        onBackground2: {
+            setbackground = 2
         }
     }
 
@@ -89,16 +125,17 @@ GameWindow {
         }
         onBackButtonPressed: gameWindow.state = "menu"
         onTogameScene: {
-            console.debug("21211")
             if(gameWindow.state !== "menu")
                 gameWindow.state = "game"
-
         }
 
     }
     GameScene{
         id: gameScene
         playerID:gameWindow.playeridentity
+        gametime: settime
+        gamemusic: setmusic
+        gamebackground: setbackground
         onToGameOver: gameWindow.state = "finish"
     }
     FinishScene{
@@ -107,6 +144,9 @@ GameWindow {
             onBackButtonPressed: gameWindow.state="menu"
     }
 
+    Component.onCompleted: {
+        socket.sendState("login",true)
+    }
 
 
 
@@ -119,6 +159,11 @@ GameWindow {
             name: "menu"
             PropertyChanges { target: menuScene;opacity :1}
             PropertyChanges {target: gameWindow;activeScene:menuScene}
+        },
+        State {
+            name: "set"
+            PropertyChanges { target: setScene;opacity :1}
+            PropertyChanges {target: gameWindow;activeScene:setScene}
         },
         State {
             name: "loading"

@@ -19,6 +19,7 @@ public:
     bool joinMember(std::weak_ptr<Player> member);
     void memberExit(std::weak_ptr<Player> member);
     void relayMessagesToMembers(std::weak_ptr<Player> sender, transimissionMessage &message);
+	void multicaseMessagesToMembers(transimissionMessage &message);
 
 private:
 	int m_id;

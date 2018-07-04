@@ -2,8 +2,13 @@
 #include "udpserver.h"
 #include "player.h"
 #include <iostream>
+#include <json/json.h>
+#include <string>
+#include <algorithm>
 
-using std::cout;        using std::endl;
+using std::cout;			using std::endl;
+using std::string;			using std::copy;
+using std::back_inserter;
 
 Room::Room(int id, std::weak_ptr<Player> roomOwner)
 	: m_id{id}, m_currentRoomMemberNumber{1}, _roomOwner{roomOwner}
@@ -30,6 +35,17 @@ bool Room::joinMember(std::weak_ptr<Player> member)
     {
         _members = member;
 		++m_currentRoomMemberNumber;
+		if(isFull())
+		{
+			Json::Value root;
+			root["findgame"] = true;
+			Json::FastWriter writer;
+			string jsonMsg = writer.write(root);
+			transimissionMessage message;
+			copy(jsonMsg.begin(), jsonMsg.end(), message.begin());
+			multicaseMessagesToMembers(message);
+		}
+
         return true;
     }
 	cout << "Room " << m_id << " is full, can not join" << endl;
@@ -38,7 +54,8 @@ bool Room::joinMember(std::weak_ptr<Player> member)
 
 void Room::memberExit(std::weak_ptr<Player> member)
 {
-    --m_currentRoomMemberNumber;
+	//if player exit, make the room unable to use
+	//--m_currentRoomMemberNumber;
     if(!(member.lock() == _roomOwner.lock() ||
             member.lock() == _members.lock()))
         cout << "The player is not a member of the room" << endl;
@@ -50,4 +67,12 @@ void Room::relayMessagesToMembers(std::weak_ptr<Player> sender, transimissionMes
         _members.lock()->sendToMe(message);
 	else if(sender.lock() == _members.lock() && !_roomOwner.expired())
         _roomOwner.lock()->sendToMe(message);
+}
+
+void Room::multicaseMessagesToMembers(transimissionMessage &message)
+{
+	if(!_members.expired())
+		_members.lock()->sendToMe(message);
+	if(!_roomOwner.expired())
+		_roomOwner.lock()->sendToMe(message);
 }

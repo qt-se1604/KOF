@@ -48,9 +48,9 @@ SceneBase{
         MouseArea{
             anchors.fill:  parent
             onClicked: {
+                socket.sendState("createRoom",true)
                 entergamePressed()
                 servercomein()
-				socket.sendState("createRoom", true)
             }
         }
     }
@@ -68,9 +68,9 @@ SceneBase{
         MouseArea{
             anchors.fill:  parent
             onClicked: {
+                socket.sendState("joinRoom",true)
                 entergamePressed()
                 clientcomein()
-				socket.sendState("joinRoom", true)
             }
         }
     }
@@ -103,7 +103,7 @@ SceneBase{
 
     MultiResolutionImage {
       id: soundButton
-	  source: settings.soundEnabled ? "../../assets/ui/sound_on.png" : "../../assets/ui/sound_off.png"
+      source: settings.soundEnabled ? "../../assets/ui   `/sound_on.png" : "../../assets/ui/sound_off.png"
       opacity: settings.soundEnabled ? 0.9 : 0.4
 
       anchors.top: musicButton.bottom
@@ -129,71 +129,12 @@ SceneBase{
       }
     }
 
+    Text{
+        anchors.left: parent.left
+        anchors.top: parent.top
+        text: "v0.8"
+                color: "#E3E3E3"
+   }
 
 
-
-//    Rectangle{
-//        id: startServer
-//        anchors.centerIn: parent
-//        width: parent.width/2
-//        height:  parent.height/5
-//        color: "#363636"
-
-//        Text{
-//            horizontalAlignment: Text.AlignHCenter
-//            verticalAlignment: Text.AlignVCenter
-//            anchors.fill: parent
-//            font.bold: true
-//            text: "start King of fighter server"
-//            color: "#E3E3E3"
-//            wrapMode: Text.WordWrap
-//        }
-
-//        MouseArea{
-//            anchors.fill: parent
-//            onClicked: {
-//                //转换对战页面
-//                console.debug("1")
-//                entergamePressed()
-//            }
-//        }
-//    }
-
-//    Rectangle{
-//        id: startClient
-//        anchors.horizontalCenter: parent.horizontalCenter
-//        anchors.top: startServer.bottom
-//        anchors.topMargin: 10
-//        width:  parent.width/2
-//        height:  parent.height/5
-//        color: "#363636"
-
-//        Text{
-//            horizontalAlignment: Text.AlignHCenter
-//            verticalAlignment: Text.AlignVCenter
-//            anchors.fill: parent
-//            font.bold: true
-//            text: "start King of fighter Client"
-//            color: "#E3E3E3"
-//            wrapMode: Text.WordWrap
-//        }
-
-//        PlatformerImageButton {
-//          id: menuButton2
-
-//          anchors.horizontalCenter: parent.horizontalCenter
-//          anchors.verticalCenter: parent.verticalCenter
-//          width:  parent.width
-//          height:  parent.height
-
-//          focus: true
-//          anchors.fill: parent
-
-//          image.source: "../../assets/ui/home.png"
-
-//          onClicked: {entergamePressed()
-//              console.debug("2")
-//          }
-//        }
-//    }
 }

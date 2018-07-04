@@ -14,12 +14,20 @@ SceneBase {
     property alias playerX: player.x
     property alias enemyplayer: enemy
 
+    property alias viewPort:viewPort
+
     signal toGameOver
     signal scoreChanged
     property double gamescore: 100
-    property int playerID
-
     property bool gameWon
+
+    property int playerID
+    property int gametime
+    property int gamemusic
+    property int gamebackground
+
+
+
 
 
 
@@ -28,15 +36,13 @@ SceneBase {
         entityContainer: gameScene
     }
 
-    Timer{}
 
     //背景的背景
     Rectangle {
-		anchors.fill: gameScene.gameWindowAnchorItem
+        anchors.fill: gameScene.gameWindowAnchorItem
         Image {
             anchors.fill:parent
-
-            source: "../../../assets/blood/beijing.jpg"
+            source: gamebackground==1? "../../../assets/blood/beijing.jpg":""
         }
     }
 
@@ -47,7 +53,7 @@ SceneBase {
         bloodvolume2.width:enemy.blood
         bloodvolume2.onWidthChanged:
         {
-            bloodvolume2.parent.x+=1
+            bloodvolume2.parent.x+=10
             if(bloodvolume2.width<=0)
             {
                 bloodvolume2.parent.x=parent.x+340
@@ -68,6 +74,39 @@ SceneBase {
         }
     }
 
+    Rectangle{
+        id  : gametruetime
+        anchors.top :parent.top
+        anchors.topMargin: 0.5*gameScene.gridSize
+        anchors.horizontalCenter: parent.horizontalCenter
+        width: 3*gameScene.gridSize
+        height: 2*gameScene.gridSize
+        property int totaltime
+        property alias timeereduce:timeereduce
+        property alias timeeetotal:timeeetotal
+        //            property alias totaltime:totaltime
+        totaltime: gametime==1?60:90
+        Timer{
+            id: timeeetotal
+            running: true
+            repeat: false
+            interval: gametime==1?60000:90000
+
+        }
+
+        Timer{
+            id: timeereduce
+            running: true
+            interval: 1000
+            repeat: true
+            onTriggered: gametruetime.totaltime -= 1
+        }
+        Text{
+            color: "red"
+            text: gametruetime.totaltime
+        }
+    }
+
     //可移动的整体组件，包含level 和 player / player2
     Item {
         id: viewPort
@@ -76,12 +115,16 @@ SceneBase {
         anchors.bottom: gameScene.gameWindowAnchorItem.bottom
         property double beforexoffsets
         property double latterxoffsets
-        x: offset()
+        property alias player: player
+        property alias enemy: enemy
+
+        property alias gametruetime: gametruetime
+        //x: offset()
 
         //物理世界设置
         PhysicsWorld {
             id: physicsWorld
-            gravity: Qt.point(0, 25)
+            gravity: Qt.point(0, 10)
             debugDrawVisible: true // enable this for physics debugging
             z: 1000
 
@@ -100,6 +143,8 @@ SceneBase {
         Level1 {
             id: level
         }
+
+
 
         // 玩家1
         Player {
@@ -220,38 +265,24 @@ SceneBase {
     Connections {
         target: socket
         onFireChanged: {
-            console.log("fire")
-            var offset = Qt.point(gameScene.gridSize, 0)
-
-            //如果我们击倒或倒退，就跳伞。
-            if (offset.x <= 0)
-                return
-
-            // 确定我们想把子弹射到哪里
-            var realX = enemy.x - player.x /*scene.gameWindowAnchorItem.width*/
-            //var ratio = offset.y / offset.x
-            var realY = /*(realX * ratio) + */ enemy.y
-            var destination
-            if (realX > 0) {
-                destination = Qt.point(-viewPort.width, realY)
-            } else if (realX < 0) {
-                destination = Qt.point(viewPort.width, realY)
+//            console.log("fire")
+            if(isFire){
+                if(enemy.actionend==true){
+                    enemy.imagenumber=1
+                    enemy.actionend=false
+                    enemy.enemyaction=3
+                }
+                fireother()
             }
+        }
+    }
 
-            // 确定我们拍摄的距离
-            var offReal = Qt.point(realX - enemy.x, realY - enemy.y)
-            var length = Math.sqrt(
-                        offReal.x * offReal.x + offReal.y * offReal.y)
-            var velocity = 140 // 弹丸速度应为每秒480PT。
-            var realMoveDuration = length / velocity * 1000 // 乘以1000，因为弹丸的持续时间是毫秒。
-
-            entityManager.createEntityFromComponentWithProperties(
-                        enemyprojectile, {
-                            destination: destination,
-                            moveDuration: realMoveDuration,
-                            x2: enemy.x,
-                            y2: enemy.y
-                        })
+    Connections{
+        target: socket
+        onJumpChanged:{
+            console.debug("jjjjjjjjjjjjjj")
+            enemy.enemyaction=4
+            enemy.imagenumber = 1
         }
     }
 
@@ -275,30 +306,42 @@ SceneBase {
             player.imagenumber=1
         }
         onAttackPressed: {
+            console.log("aaaaaaaaaaaaaaaaaaaa")
             if(operateface.farattackinterval === 0){
-                socket.sendState("fire", isAttack)
-
+                farattacktimer.running = true
+                operateface.farattackinterval += 1
+                 console.log("aaabbbbbbbbbbbbbbbbbbaaaaaa")
+                console.debug(player.actionend)
+                console.debug(player.imagenumber)
                 if(player.actionend==true){
                     player.imagenumber=1
                     player.actionend=false
-                     player.playeraction=3
-                    firemy()
+                    player.playeraction=3
                 }
+                socket.sendState("fire", true)
+                firemy()
             }
         }
         onJumpPressed: {
-            if(player.actionend==true){
-                player.imagenumber=1
-                player.actionend=false
-                player.playeraction=4
-                player.jump()
-            }
+//            if(operateface.jumpinterval === 0){
+//                operateface.jumpinterval++
+//                jumptimer.running = true
+                if(player.actionend==true){
 
-            console.log("Jump pressed: " + isJump)
+                    player.imagenumber=1
+                    player.actionend=false
+                    player.playeraction=4
+
+                }
+                 player.jump()
+                 socket.sendState("jump", isJump)
+//            }
+
+
         }
         onCloseRangAttackPressed: {
             if(operateface.closeattackinterval === 0){
-                //socket.sendState("fire", isAttack)//dassssssssssssssssss
+                //socket.sendState("fire", isAttack)
                 var attackoffset
                 if(player.x >enemy.x)
                     attackoffset = Qt.point(-gameScene.gridSize*2.5,gameScene.gridSize)
@@ -321,7 +364,6 @@ SceneBase {
             color: "yellow"
             text: "OVER"
             onClicked: {
-                finishScene.gamescore = gameScene.gamescore
                 toGameOver()
             }
         }
@@ -344,6 +386,15 @@ SceneBase {
             operateface.farattackinterval=0
         }
     }
+//    Timer{
+//        id:jumptimer
+//        interval: 2000
+//        repeat: false
+//        running: false
+//        onTriggered: {
+//            operateface.jumpinterval=0
+//        }
+//    }
 
     function fireother(){
         var offset = Qt.point(gameScene.gridSize, 0)
@@ -354,26 +405,17 @@ SceneBase {
 
         // 确定我们想把子弹射到哪里
         var realX = enemy.x - player.x /*scene.gameWindowAnchorItem.width*/
-        //var ratio = offset.y / offset.x
-        var realY = /*(realX * ratio) + */ enemy.y
         var destination
         if (realX > 0) {
-            destination = Qt.point(-viewPort.width, realY)
+            destination = Qt.point(-15*gameScene.gridSize, enemy.y)
         } else if (realX < 0) {
-            destination = Qt.point(viewPort.width, realY)
+            destination = Qt.point(15*gameScene.gridSize, enemy.y)
         }
 
-        // 确定我们拍摄的距离
-        var offReal = Qt.point(realX - enemy.x, realY - enemy.y)
-        var length = Math.sqrt(
-                    offReal.x * offReal.x + offReal.y * offReal.y)
-        var velocity = 140 // 弹丸速度应为每秒480PT。
-        var realMoveDuration = length / velocity * 1000 // 乘以1000，因为弹丸的持续时间是毫秒。
 
         entityManager.createEntityFromComponentWithProperties(
                     enemyprojectile, {
                         destination: destination,
-                        moveDuration: realMoveDuration,
                         x2: enemy.x,
                         y2: enemy.y
                     })
@@ -387,25 +429,15 @@ SceneBase {
             return
 
         var realX = player.x - enemy.x /*scene.gameWindowAnchorItem.width*/
-        //var ratio = offset.y / offset.x
-        var realY = /*(realX * ratio) + */ enemy.y
         var destination
         if (realX > 0) {
-            destination = Qt.point(-viewPort.width, realY)
+            destination = Qt.point(-15*gameScene.gridSize, player.y)
         } else if (realX < 0) {
-            destination = Qt.point(viewPort.width, realY)
+            destination = Qt.point(15*gameScene.gridSize,player.y)
         }
-
-        // 确定我们拍摄的距离
-        var offReal = Qt.point(realX - player.x, realY - player.y)
-        var length = Math.sqrt(
-                    offReal.x * offReal.x + offReal.y * offReal.y)
-        var velocity = 140 // 弹丸速度应为每秒480PT。
-        var realMoveDuration = length / velocity * 1000 // 乘以1000，因为弹丸的持续时间是毫秒。
 
         entityManager.createEntityFromComponentWithProperties(projectile, {
                                                                   destination: destination,
-                                                                  moveDuration: realMoveDuration,
                                                                   x2: player.x,
                                                                   y2: player.y
                                                               })

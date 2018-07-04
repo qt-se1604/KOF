@@ -6,10 +6,16 @@ EntityBase {
     entityType: "enemy"
     width: 2.5 * gameScene.gridSize
     height: 4 * gameScene.gridSize
+    property int enemyaction: 0
+    property bool  enemyface: true
+    property bool actionend:true
     MultiResolutionImage {
-        source: "../../assets/blood/大蛇.png"
+        id:playerImage
+        anchors.fill:collider
+
     }
     property double blood: 100
+    property int  imagenumber: 1
     BoxCollider {
         id: collider
         height: parent.height
@@ -18,17 +24,8 @@ EntityBase {
         bodyType: Body.Dynamic
         fixedRotation: true
         sleepingAllowed: false
+        density: 10
         gravityScale: 0
-		density: 10
-        //force: Qt.point(playerController.xAxis*170*gameScene.gridSize,0)
-        //      onLinearVelocityChanged: {
-        //          if (linearVelocity.x >  5*gameScene.gridSize){
-        //              linearVelocity.x =  5*gameScene.gridSize
-        //              console.debug("aaa")
-        //          }
-        //          if (linearVelocity.x < -5 * gameScene.gridSize)
-        //              linearVelocity.x = -5 * gameScene.gridSize
-        //      }
         fixture.onBeginContact: {
             var collidedEntity = other.getBody().target
             console.debug("collided with entity", collidedEntity.entityType)
@@ -36,20 +33,265 @@ EntityBase {
                 console.log("touched enemy")
                 if(blood>0)
                 {
-                    blood-=1
+                    blood-=10
                 }
                 collidedEntity.removeEntity()
             }
-            //        var otherEntity = other.getBody().target
-            //        if(otherEntity.entityType === "platform" || otherEntity.entiryType === "ground"){
-            //            console.log("Change to Walk")
-            //            player.state = "walking"
-            //        }
-            //        if(pressedJump)
-            //        {
-            //            player.state = "walking"
-            //            pressedJump = true;
-            //        }
         }
     }
+    Timer{
+        id:enemyactiontime
+        interval:90
+        running:true
+        repeat: true
+        onTriggered: {
+//            console.debug("image:"+imagenumber)
+            imagenumber+=1
+            if(player.x - enemy.x>0)
+            {
+                enemyface=true
+            }
+            else{
+                enemyface=false
+            }
+            selectImage()
+
+
+        }
+    }
+    function selectImage(){
+        if(enemyface){
+            if(enemyaction==0)
+            {
+                if(imagenumber==11)
+                {
+                    imagenumber=1
+                }
+                switch(imagenumber)
+                {
+
+                case 1:playerImage.source="../../assets/player/cao1.png";break;
+
+                case 2:playerImage.source="../../assets/player/cao2.png";break;
+
+                case 3:playerImage.source="../../assets/player/cao3.png";break;
+
+                case 4:playerImage.source="../../assets/player/cao4.png";break;
+
+                case 5:playerImage.source="../../assets/player/cao5.png";break;
+                case 6:playerImage.source="../../assets/player/cao6.png";break;
+
+                case 7:playerImage.source="../../assets/player/cao7.png";break;
+
+                case 8:playerImage.source="../../assets/player/cao8.png";break;
+
+                case 9:playerImage.source="../../assets/player/cao9.png";break;
+
+                case 10:playerImage.source="../../assets/player/cao10.png";break;
+
+                default:break;
+                }
+            }
+            if(enemyaction==1){
+                if(imagenumber==6)
+                {
+                    imagenumber=1
+                    enemyaction=0
+                }
+                switch(imagenumber)
+                {
+
+                case 1:playerImage.source="../../assets/player/action/zou2.png";break;
+
+                case 2:playerImage.source="../../assets/player/action/zou3.png";break;
+
+                case 3:playerImage.source="../../assets/player/action/zou4.png";break;
+
+                case 4:playerImage.source="../../assets/player/action/zou5.png";break;
+
+                case 5:playerImage.source="../../assets/player/action/zou6.png";break;
+                }
+            }
+            if(enemyaction==2){
+                if(imagenumber==6)
+                {
+                    imagenumber=1
+                    enemyaction=0
+                }
+                switch(imagenumber)
+                {
+
+                case 5:playerImage.source="../../assets/player/action/zou2.png";break;
+
+                case 4:playerImage.source="../../assets/player/action/zou3.png";break;
+
+                case 3:playerImage.source="../../assets/player/action/zou4.png";break;
+
+                case 2:playerImage.source="../../assets/player/action/zou5.png";break;
+
+                case 1:playerImage.source="../../assets/player/action/zou6.png";break;
+                }
+            }
+            if(enemyaction==3){
+                enemyactiontime.interval
+                =120
+                if(imagenumber==6)
+                {
+                    imagenumber=1
+                    enemyaction=0
+                    enemyactiontime.interval=90
+                    actionend=true
+                }
+                switch(imagenumber)
+                {
+                case 1:playerImage.source="../../assets/player/action/fire/fire1.png";break;
+                case 2:playerImage.source="../../assets/player/action/fire/fire2.png";break;
+                case 3:playerImage.source="../../assets/player/action/fire/fire3.png";break;
+                case 4:playerImage.source="../../assets/player/action/fire/fire4.png";break;
+                case 5:playerImage.source="../../assets/player/action/fire/fire5.png";break;
+                }
+            }
+            if(enemyaction==4){
+                enemyactiontime.interval
+                =130
+                if(imagenumber==8)
+                {
+                    imagenumber=1
+                    enemyaction=0
+                    enemyactiontime.interval=90
+                    actionend=true
+                }
+                switch(imagenumber)
+                {
+                case 1:playerImage.source="../../assets/player/action/jump/jump2.png";break;
+                case 2:playerImage.source="../../assets/player/action/jump/jump2.png";break;
+                case 3:playerImage.source="../../assets/player/action/jump/jump3.png";break;
+                case 4:playerImage.source="../../assets/player/action/jump/jump4.png";break;
+                case 5:playerImage.source="../../assets/player/action/jump/jump5.png";break;
+                case 6:playerImage.source="../../assets/player/action/jump/jump6.png";break;
+                case 7:playerImage.source="../../assets/player/action/jump/jump7.png";break;
+//                case 8:playerImage.source="../../assets/player/action/jump/jump.png";break;
+//                case 9:playerImage.source="../../assets/player/action/jump/jump9.png";break;
+                }
+            }
+
+        }else{
+            if(enemyaction==0)
+            {
+                if(imagenumber==11)
+                {
+                    imagenumber=1
+                }
+                switch(imagenumber)
+                {
+
+                case 1:playerImage.source="../../assets/player/cao11.png";break;
+
+                case 2:playerImage.source="../../assets/player/cao12.png";break;
+
+                case 3:playerImage.source="../../assets/player/cao13.png";break;
+
+                case 4:playerImage.source="../../assets/player/cao14.png";break;
+
+                case 5:playerImage.source="../../assets/player/cao15.png";break;
+                case 6:playerImage.source="../../assets/player/cao16.png";break;
+
+                case 7:playerImage.source="../../assets/player/cao17.png";break;
+
+                case 8:playerImage.source="../../assets/player/cao18.png";break;
+
+                case 9:playerImage.source="../../assets/player/cao19.png";break;
+
+                case 10:playerImage.source="../../assets/player/cao20.png";break;
+
+                default:break;
+                }
+            }
+            if(enemyaction==1){
+                if(imagenumber==6)
+                {
+                    imagenumber=1
+                    enemyaction=0
+                }
+                switch(imagenumber)
+                {
+
+                case 1:playerImage.source="../../assets/player/action/zou12.png";break;
+
+                case 2:playerImage.source="../../assets/player/action/zou13.png";break;
+
+                case 3:playerImage.source="../../assets/player/action/zou14.png";break;
+
+                case 4:playerImage.source="../../assets/player/action/zou15.png";break;
+
+                case 5:playerImage.source="../../assets/player/action/zou16.png";break;
+                }
+            }
+            if(enemyaction==2){
+                if(imagenumber==6)
+                {
+                    imagenumber=1
+                    enemyaction=0
+                }
+                switch(imagenumber)
+                {
+
+                case 5:playerImage.source="../../assets/player/action/zou12.png";break;
+
+                case 4:playerImage.source="../../assets/player/action/zou13.png";break;
+
+                case 3:playerImage.source="../../assets/player/action/zou14.png";break;
+
+                case 2:playerImage.source="../../assets/player/action/zou15.png";break;
+
+                case 1:playerImage.source="../../assets/player/action/zou16.png";break;
+                }
+            }
+            if(enemyaction==3){
+                enemyactiontime.interval
+                =120
+                if(imagenumber==6)
+                {
+                    imagenumber=1
+                    enemyaction=0
+                    enemyactiontime.interval=90
+                    actionend=true
+                }
+                switch(imagenumber)
+                {
+                case 1:playerImage.source="../../assets/player/action/fire/fire12.png";break;
+                case 2:playerImage.source="../../assets/player/action/fire/fire13.png";break;
+                case 3:playerImage.source="../../assets/player/action/fire/fire14.png";break;
+                case 4:playerImage.source="../../assets/player/action/fire/fire15.png";break;
+                case 5:playerImage.source="../../assets/player/action/fire/fire16.png";break;
+                }
+            }
+            if(enemyaction==4){
+                enemyactiontime.interval
+                =130
+                if(imagenumber==8)
+                {
+                    imagenumber=1
+                    enemyaction=0
+                    enemyactiontime.interval=90
+                    actionend=true
+                }
+                switch(imagenumber)
+                {
+                case 1:playerImage.source="../../assets/player/action/jump/jump12.png";break;
+                case 2:playerImage.source="../../assets/player/action/jump/jump12.png";break;
+                case 3:playerImage.source="../../assets/player/action/jump/jump13.png";break;
+                case 4:playerImage.source="../../assets/player/action/jump/jump14.png";break;
+                case 5:playerImage.source="../../assets/player/action/jump/jump15.png";break;
+                case 6:playerImage.source="../../assets/player/action/jump/jump14.png";break;
+                case 7:playerImage.source="../../assets/player/action/jump/jump13.png";break;
+//                case 8:playerImage.source="../../assets/player/action/jump/jump.png";break;
+//                case 9:playerImage.source="../../assets/player/action/jump/jump9.png";break;
+                }
+            }
+        }
+
+
+    }
+
 }

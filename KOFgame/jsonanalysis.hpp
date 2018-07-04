@@ -61,6 +61,51 @@ public:
                         emit fireChanged(fire);
                     }
                 }
+                if(object.contains("time"))
+                {
+                    QJsonValue value = object.value("time");
+                    if(value.isDouble())
+                    {
+                        double time = value.toVariant().toInt();
+                        emit timeChanged(time);
+                    }
+                }
+                if(object.contains("music"))
+                {
+                    QJsonValue value = object.value("music");
+                    if(value.isDouble())
+                    {
+                        double music = value.toVariant().toInt();
+                        emit musicChanged(music);
+                    }
+                }
+                if(object.contains("background"))
+                {
+                    QJsonValue value = object.value("background");
+                    if(value.isDouble())
+                    {
+                        double background = value.toVariant().toInt();
+                        emit backgroundChanged(background);
+                    }
+                }
+                if(object.contains("findgame"))
+                {
+                    QJsonValue value = object.value("findgame");
+                    if(value.isBool())
+                    {
+                        bool findgame = value.toVariant().toBool();
+                        emit findgameChanged(findgame);
+                    }
+                }
+                if(object.contains("jump"))
+                {
+                    QJsonValue value = object.value("jump");
+                    if(value.isBool())
+                    {
+                        bool jump = value.toVariant().toBool();
+                        emit jumpChanged(jump);
+                    }
+                }
             }
         }
     }
@@ -69,6 +114,11 @@ signals:
     void xChanged(double x);
     void yChanged(double y);
     void fireChanged(bool isFire);
+    void timeChanged(double time);
+    void musicChanged(double music);
+    void backgroundChanged(double background);
+    void findgameChanged(bool findgame);
+    void jumpChanged(bool jump);
 
 };
 

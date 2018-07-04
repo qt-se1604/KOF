@@ -58,6 +58,10 @@ EntityBase {
             var collidedEntity = other.getBody().target
             console.debug("collided with entity", collidedEntity.entityType)
             if (collidedEntity.entityType === "Enemyprojectile") {
+                if(blood>0)
+                {
+                    blood-=10
+                }
                 collidedEntity.removeEntity()
             }
         }
@@ -83,14 +87,19 @@ EntityBase {
         running:true
         repeat: true
         onTriggered: {
-            console.debug("image:"+imagenumber)
+
             imagenumber+=1
             if(player.x - enemy.x<0)
             {
+
                 playerface=true
+
             }
             else{
+
                 playerface=false
+
+
             }
             selectImage()
 

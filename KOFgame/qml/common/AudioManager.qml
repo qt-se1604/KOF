@@ -15,9 +15,19 @@ Item {
         autoPlay: false
         source: "../../assets/audio/MenuMusic/s1.mp3"
     }
+    BackgroundMusic{
+        id: setMusic
+        autoPlay: false
+        source: "../../assets/audio/MenuMusic/S1.mp3"
+    }
 
     BackgroundMusic {
-        id: gameMusic
+        id: gameMusic1
+        autoPlay: false
+        source: "../../assets/audio/MenuMusic/S2.mp3"
+    }
+    BackgroundMusic {
+        id: gameMusic2
         autoPlay: false
         source: "../../assets/audio/MenuMusic/S2.mp3"
     }
@@ -49,16 +59,16 @@ Item {
     // this function sets the music, depending on the current scene and the gameScene's state
     function handleMusic() {
         if(activeScene === menuScene){
-            console.debug("1")
             audioManager.startMusic(menuMusic)
         }
-
+        else if(activeScene === setScene){
+            audioManager.startMusic(setMusic)
+        }
         else if(activeScene === gameScene) {
-            audioManager.startMusic(gameMusic)
-            //        if(gameScene.state == "play" || gameScene.state == "stop")
-            //          audioManager.startMusic(playMusic)
-            //        else if(gameScene.state == "edit")
-            //          audioManager.startMusic(editMusic)
+            if(gameScene.gamemusic === 1)
+                audioManager.startMusic(gameMusic1)
+            else if(gameScene.gamemusic === 2)
+                audioManager.startMusic(gameMusic2)
         }
         else if(activeScene === loadingScene){
             audioManager.startMusic(loadingMusic)
@@ -76,7 +86,9 @@ Item {
 
         // otherwise stop all music tracks
         menuMusic.stop()
-        gameMusic.stop()
+        setMusic.stop()
+        gameMusic1.stop()
+        gameMusic2.stop()
         loadingMusic.stop()
         finishMusic.stop()
 

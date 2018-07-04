@@ -7,7 +7,7 @@
 #include <json/reader.h>
 #include <json/value.h>
 
-using namespace std;
+using std::string;
 
 int main()
 {
@@ -20,10 +20,11 @@ int main()
     while(true)
     {
         UdpServer::getServer() >> data;
-        string json(data.message.begin(), data.message.end());
+		string jsonString(data.message.begin(), data.message.end());
 
-		jsReader.parse(json, root);
-		if(root.isMember("x") || root.isMember("y") || root.isMember("fire"))
+		jsReader.parse(jsonString, root);
+		if(root.isMember("x") || root.isMember("y") ||
+				root.isMember("fire") || root.isMember("jump"))
 			manage.playerOnlineStateUpdateMessage(data, PlayerRequest::relay);
 		if(root.isMember("createRoom") && root["createRoom"].asBool())
 			manage.playerOnlineStateUpdateMessage(data, PlayerRequest::createRoom);
@@ -31,6 +32,7 @@ int main()
 			manage.playerOnlineStateUpdateMessage(data, PlayerRequest::JoinRoom);
 		if(root.isMember("login") && root["login"].asBool())
 			manage.playerOnlineStateUpdateMessage(data, PlayerRequest::login);
-        //manage.playerOnlineStateUpdateMessage(data, PlayerRequest::login);
     }
+
+	return 0;
 }

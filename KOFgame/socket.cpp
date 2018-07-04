@@ -18,6 +18,11 @@ UdpSocket::UdpSocket(QObject *parent)
     connect(&json, &JsonAnalysis::xChanged, this, &UdpSocket::xChanged);
     connect(&json, &JsonAnalysis::yChanged, this, &UdpSocket::yChanged);
     connect(&json, &JsonAnalysis::fireChanged, this, &UdpSocket::fireChanged);
+    connect(&json, &JsonAnalysis::timeChanged, this, &UdpSocket::timeChanged);
+    connect(&json, &JsonAnalysis::musicChanged, this, &UdpSocket::musicChanged);
+    connect(&json, &JsonAnalysis::backgroundChanged, this, &UdpSocket::backgroundChanged);
+    connect(&json, &JsonAnalysis::findgameChanged, this, &UdpSocket::findgameChanged);
+    connect(&json, &JsonAnalysis::jumpChanged, this, &UdpSocket::jumpChanged);
 }
 
 UdpSocket::~UdpSocket()

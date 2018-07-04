@@ -31,6 +31,11 @@ signals:
     void xChanged(double xValue);
     void yChanged(double yValue);
     void fireChanged(bool isFire);
+    void timeChanged(double time);
+    void musicChanged(double music);
+    void backgroundChanged(double background);
+    void findgameChanged(bool findgame);
+    void jumpChanged(bool jump);
 
 public slots:
     void receiveMessage();

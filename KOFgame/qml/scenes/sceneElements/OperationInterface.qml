@@ -9,6 +9,7 @@ Item {
 
     property int closeattackinterval:0
     property int farattackinterval: 0
+    property int jumpinterval: 0
 //    state: contractss ==0?"able":"unable"
 
     //buttoms
