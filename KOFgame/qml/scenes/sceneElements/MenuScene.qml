@@ -7,9 +7,10 @@ SceneBase{
     id: menuScene
 
     signal entergamePressed
+    signal servercomein
+    signal clientcomein
 
     //背景
-
     Rectangle{
         id: background1
         anchors.fill:parent.gameWindowAnchorItem
@@ -48,6 +49,8 @@ SceneBase{
             anchors.fill:  parent
             onClicked: {
                 entergamePressed()
+                servercomein()
+				socket.sendState("createRoom", true)
             }
         }
     }
@@ -66,6 +69,8 @@ SceneBase{
             anchors.fill:  parent
             onClicked: {
                 entergamePressed()
+                clientcomein()
+				socket.sendState("joinRoom", true)
             }
         }
     }
@@ -98,7 +103,7 @@ SceneBase{
 
     MultiResolutionImage {
       id: soundButton
-      source: settings.soundEnabled ? "../../assets/ui   `/sound_on.png" : "../../assets/ui/sound_off.png"
+	  source: settings.soundEnabled ? "../../assets/ui/sound_on.png" : "../../assets/ui/sound_off.png"
       opacity: settings.soundEnabled ? 0.9 : 0.4
 
       anchors.top: musicButton.bottom
@@ -125,12 +130,7 @@ SceneBase{
     }
 
 
-    Text{
-        id:versionnumber
-        text:"版本号:0.3"
 
-
-    }
 
 //    Rectangle{
 //        id: startServer

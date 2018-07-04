@@ -1,6 +1,20 @@
 TEMPLATE = app
-CONFIG += console
+CONFIG += console c++11
 CONFIG -= app_bundle
 CONFIG -= qt
 
-SOURCES += main.c
+LIBS += -ljsoncpp
+
+SOURCES += main.cpp \
+    udpserver.cpp \
+    onlineclients.cpp \
+    datagram.cpp \
+    player.cpp \
+    room.cpp
+
+HEADERS += \
+    udpserver.h \
+    onlineclients.h \
+    datagram.h \
+    player.h \
+    room.h

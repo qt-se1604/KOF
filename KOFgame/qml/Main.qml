@@ -12,9 +12,10 @@ GameWindow {
 	screenWidth: 960
 	screenHeight: 640
 
+    property int playeridentity:0
+
     onActiveSceneChanged:{
         audioManager.handleMusic()
-        console.debug("enter!!!!!!!!!!!!!!!!!")
     }
 
     UdpSocket {
@@ -41,6 +42,9 @@ GameWindow {
                     break
             }
         }
+		Component.onCompleted: {
+			sendState("login", true)
+		}
     }
 
     onStateChanged: {
@@ -66,11 +70,18 @@ GameWindow {
 
     MenuScene{
         id: menuScene
+        onServercomein: {
+            gameWindow.playeridentity = 1
+        }
+        onClientcomein: {
+            gameWindow.playeridentity = 2
+        }
         onEntergamePressed:{
             console.debug("3232")
             gameWindow.state = "loading"
         }
     }
+
     LoadScene{
         id:loadingScene
         waittimer {
@@ -81,10 +92,13 @@ GameWindow {
             console.debug("21211")
             if(gameWindow.state !== "menu")
                 gameWindow.state = "game"
+
         }
+
     }
     GameScene{
         id: gameScene
+        playerID:gameWindow.playeridentity
         onToGameOver: gameWindow.state = "finish"
     }
     FinishScene{
@@ -92,6 +106,8 @@ GameWindow {
             onTogamepress: gameWindow.state="game"
             onBackButtonPressed: gameWindow.state="menu"
     }
+
+
 
 
     // states

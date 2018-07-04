@@ -5,7 +5,11 @@ Item {
     signal controllerPositionChanged(point controllerDirection)
     signal attackPressed(bool isAttack)
     signal jumpPressed(bool isJump)
-    signal unsetPressed(bool isUnset)
+    signal closeRangAttackPressed(bool isUnset)
+
+    property int closeattackinterval:0
+    property int farattackinterval: 0
+//    state: contractss ==0?"able":"unable"
 
     //buttoms
     JoystickControllerHUD {
@@ -71,7 +75,7 @@ Item {
         }
     }
     Rectangle {
-        id: unset
+        id: closeRangAttack
         height: 40
         width: height
         radius: height
@@ -85,9 +89,9 @@ Item {
         MultiPointTouchArea {
             anchors.fill: parent
             touchPoints: TouchPoint {
-                id: unsetTouchPoint
+                id: closeRangAttackTouchPoint
                 onPressedChanged: {
-                    unsetPressed(pressed)
+                    closeRangAttackPressed(pressed)
                 }
             }
         }

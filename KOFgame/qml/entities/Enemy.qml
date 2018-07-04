@@ -7,8 +7,9 @@ EntityBase {
     width: 2.5 * gameScene.gridSize
     height: 4 * gameScene.gridSize
     MultiResolutionImage {
-        source: "../../assets/player/run.png"
+        source: "../../assets/blood/大蛇.png"
     }
+    property double blood: 100
     BoxCollider {
         id: collider
         height: parent.height
@@ -18,6 +19,7 @@ EntityBase {
         fixedRotation: true
         sleepingAllowed: false
         gravityScale: 0
+		density: 10
         //force: Qt.point(playerController.xAxis*170*gameScene.gridSize,0)
         //      onLinearVelocityChanged: {
         //          if (linearVelocity.x >  5*gameScene.gridSize){
@@ -32,6 +34,10 @@ EntityBase {
             console.debug("collided with entity", collidedEntity.entityType)
             if (collidedEntity.entityType === "projectile") {
                 console.log("touched enemy")
+                if(blood>0)
+                {
+                    blood-=1
+                }
                 collidedEntity.removeEntity()
             }
             //        var otherEntity = other.getBody().target
