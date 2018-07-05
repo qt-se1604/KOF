@@ -131,7 +131,7 @@ SceneBase{
     Text{
         anchors.left: parent.left
         anchors.top: parent.top
-        text: "v0.8"
+        text: "v0.85"
                 color: "#E3E3E3"
    }
 

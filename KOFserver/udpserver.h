@@ -14,7 +14,7 @@
 //#include <stdlib.h>
 #include <array>
 
-#define DEFAULT_IP "10.253.161.100"
+#define DEFAULT_IP "127.0.0.1"
 #define DEFAULT_PORT 10000
 
 class DataGram;

@@ -345,6 +345,13 @@ SceneBase {
         }
         onCloseRangAttackPressed: {
             if(operateface.closeattackinterval === 0){
+
+                    if(player.actionend==true){
+
+                        player.imagenumber=1
+                        player.actionend=false
+                        player.playeraction=5
+                    }
                 //socket.sendState("fire", isAttack)
                 var attackoffset
                 if(player.x >enemy.x)
@@ -355,7 +362,7 @@ SceneBase {
                 operateface.closeattackinterval++
                 entityManager.createEntityFromComponentWithProperties(closerangattack, {
                                                                           x:player.x+attackoffset.x,
-                                                                          y:player.y+ attackoffset.y
+                                                                          y:0/*+ attackoffset.y*/
                                                                       })
             }
         }
@@ -390,6 +397,7 @@ SceneBase {
             operateface.farattackinterval=0
         }
     }
+
 //    Timer{
 //        id:jumptimer
 //        interval: 2000

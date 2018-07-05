@@ -5,7 +5,7 @@ EntityBase {
     id: player
     entityType: "player"
     width: 2.5 * gameScene.gridSize
-	height: 3.5 * gameScene.gridSize
+    height: 3.5 * gameScene.gridSize
 
     property bool pressedJump: false
 
@@ -18,6 +18,8 @@ EntityBase {
     property alias forcex: collider.force.x
     property alias collider: collider
     property alias horizontalVelocity: collider.linearVelocity.x
+
+
 
     property double blood: 100
     property int imagenumber: 1
@@ -32,6 +34,7 @@ EntityBase {
     MultiResolutionImage {
         id:playerImage
         anchors.fill: collider
+
     }
 
     BoxCollider {
@@ -45,7 +48,8 @@ EntityBase {
         force: Qt.point(playerController.xAxis * 170 * gameScene.gridSize, 0)
         onLinearVelocityChanged: {
             if (linearVelocity.x > 5 * gameScene.gridSize) {
-				linearVelocity.x = 5 * gameScene.gridSize
+                linearVelocity.x = 5 * gameScene.gridSize
+                console.debug("aaa")
             }
             if (linearVelocity.x < -5 * gameScene.gridSize)
                 linearVelocity.x = -5 * gameScene.gridSize
@@ -83,15 +87,23 @@ EntityBase {
         running:true
         repeat: true
         onTriggered: {
+
             imagenumber+=1
             if(player.x - enemy.x<0)
             {
+
                 playerface=true
+
             }
             else{
+
                 playerface=false
+
+
             }
             selectImage()
+
+
         }
     }
     function selectImage(){
@@ -104,16 +116,26 @@ EntityBase {
                 }
                 switch(imagenumber)
                 {
+
                 case 1:playerImage.source="../../assets/player/cao1.png";break;
+
                 case 2:playerImage.source="../../assets/player/cao2.png";break;
+
                 case 3:playerImage.source="../../assets/player/cao3.png";break;
+
                 case 4:playerImage.source="../../assets/player/cao4.png";break;
+
                 case 5:playerImage.source="../../assets/player/cao5.png";break;
                 case 6:playerImage.source="../../assets/player/cao6.png";break;
+
                 case 7:playerImage.source="../../assets/player/cao7.png";break;
+
                 case 8:playerImage.source="../../assets/player/cao8.png";break;
+
                 case 9:playerImage.source="../../assets/player/cao9.png";break;
+
                 case 10:playerImage.source="../../assets/player/cao10.png";break;
+
                 default:break;
                 }
             }
@@ -125,10 +147,15 @@ EntityBase {
                 }
                 switch(imagenumber)
                 {
+
                 case 1:playerImage.source="../../assets/player/action/zou2.png";break;
+
                 case 2:playerImage.source="../../assets/player/action/zou3.png";break;
+
                 case 3:playerImage.source="../../assets/player/action/zou4.png";break;
+
                 case 4:playerImage.source="../../assets/player/action/zou5.png";break;
+
                 case 5:playerImage.source="../../assets/player/action/zou6.png";break;
                 }
             }
@@ -140,10 +167,15 @@ EntityBase {
                 }
                 switch(imagenumber)
                 {
+
                 case 5:playerImage.source="../../assets/player/action/zou2.png";break;
+
                 case 4:playerImage.source="../../assets/player/action/zou3.png";break;
+
                 case 3:playerImage.source="../../assets/player/action/zou4.png";break;
+
                 case 2:playerImage.source="../../assets/player/action/zou5.png";break;
+
                 case 1:playerImage.source="../../assets/player/action/zou6.png";break;
                 }
             }
@@ -189,6 +221,30 @@ EntityBase {
 //                case 9:playerImage.source="../../assets/player/action/jump/jump9.png";break;
                 }
             }
+            if(playeraction==5){
+                playeractiontime.interval
+                =100
+                if(imagenumber==9)
+                {
+                    imagenumber=1
+                    playeraction=0
+                    playeractiontime.interval=90
+                    actionend=true
+                    closewy.stop()
+                }
+                switch(imagenumber)
+                {
+                case 1:playerImage.source="../../assets/player/action/closeattic/close1.png";break;
+                case 2:playerImage.source="../../assets/player/action/closeattic/close2.png";break;
+                case 3:playerImage.source="../../assets/player/action/closeattic/close3.png";break;
+                case 4:playerImage.source="../../assets/player/action/closeattic/close4.png";break;
+                case 5:playerImage.source="../../assets/player/action/closeattic/close5.png";break;
+                case 6:playerImage.source="../../assets/player/action/closeattic/close6.png";break;
+                case 7:playerImage.source="../../assets/player/action/closeattic/close7.png";break;
+                case 8:playerImage.source="../../assets/player/action/closeattic/close8.png";break;
+
+                }
+            }
 
         }else{
             if(playeraction==0)
@@ -199,16 +255,26 @@ EntityBase {
                 }
                 switch(imagenumber)
                 {
+
                 case 1:playerImage.source="../../assets/player/cao11.png";break;
+
                 case 2:playerImage.source="../../assets/player/cao12.png";break;
+
                 case 3:playerImage.source="../../assets/player/cao13.png";break;
+
                 case 4:playerImage.source="../../assets/player/cao14.png";break;
+
                 case 5:playerImage.source="../../assets/player/cao15.png";break;
                 case 6:playerImage.source="../../assets/player/cao16.png";break;
+
                 case 7:playerImage.source="../../assets/player/cao17.png";break;
+
                 case 8:playerImage.source="../../assets/player/cao18.png";break;
+
                 case 9:playerImage.source="../../assets/player/cao19.png";break;
+
                 case 10:playerImage.source="../../assets/player/cao20.png";break;
+
                 default:break;
                 }
             }
@@ -220,10 +286,15 @@ EntityBase {
                 }
                 switch(imagenumber)
                 {
+
                 case 1:playerImage.source="../../assets/player/action/zou12.png";break;
+
                 case 2:playerImage.source="../../assets/player/action/zou13.png";break;
+
                 case 3:playerImage.source="../../assets/player/action/zou14.png";break;
+
                 case 4:playerImage.source="../../assets/player/action/zou15.png";break;
+
                 case 5:playerImage.source="../../assets/player/action/zou16.png";break;
                 }
             }
@@ -235,10 +306,15 @@ EntityBase {
                 }
                 switch(imagenumber)
                 {
+
                 case 5:playerImage.source="../../assets/player/action/zou12.png";break;
+
                 case 4:playerImage.source="../../assets/player/action/zou13.png";break;
+
                 case 3:playerImage.source="../../assets/player/action/zou14.png";break;
+
                 case 2:playerImage.source="../../assets/player/action/zou15.png";break;
+
                 case 1:playerImage.source="../../assets/player/action/zou16.png";break;
                 }
             }
@@ -284,6 +360,31 @@ EntityBase {
 //                case 9:playerImage.source="../../assets/player/action/jump/jump9.png";break;
                 }
             }
+            if(playeraction==5){
+                playeractiontime.interval
+                =100
+                if(imagenumber==9)
+                {
+                    imagenumber=1
+                    playeraction=0
+                    playeractiontime.interval=90
+                    actionend=true
+
+                }
+                switch(imagenumber)
+                {
+                case 1:playerImage.source="../../assets/player/action/closeattic/close11.png";break;
+                case 2:playerImage.source="../../assets/player/action/closeattic/close12.png";break;
+                case 3:playerImage.source="../../assets/player/action/closeattic/close13.png";break;
+                case 4:playerImage.source="../../assets/player/action/closeattic/close14.png";break;
+                case 5:playerImage.source="../../assets/player/action/closeattic/close15.png";break;
+                case 6:playerImage.source="../../assets/player/action/closeattic/close16.png";break;
+                case 7:playerImage.source="../../assets/player/action/closeattic/close17.png";break;
+                case 8:playerImage.source="../../assets/player/action/closeattic/close18.png";break;
+
+                }
+            }
+
         }
 
 
