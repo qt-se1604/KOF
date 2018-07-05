@@ -36,6 +36,7 @@ signals:
     void backgroundChanged(double background);
     void findgameChanged(bool findgame);
     void jumpChanged(bool jump);
+	void quitRoomChanged(bool isQuitRoom);
 
 public slots:
     void receiveMessage();

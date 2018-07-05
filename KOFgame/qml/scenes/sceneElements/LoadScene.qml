@@ -39,13 +39,13 @@ SceneBase {
         }
     }
 
-    Timer{
+	Timer{
         id:waittime
         interval: 2000
         running: false
         repeat: true
-        onTriggered: {
+		/*onTriggered: {
              togameScene()
-        }
+		}*/
     }
 }

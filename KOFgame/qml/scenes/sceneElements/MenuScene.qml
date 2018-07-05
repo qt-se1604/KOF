@@ -47,8 +47,7 @@ SceneBase{
         anchors.horizontalCenter: parent.horizontalCenter
         MouseArea{
             anchors.fill:  parent
-            onClicked: {
-                socket.sendState("createRoom",true)
+			onClicked: {
                 entergamePressed()
                 servercomein()
             }

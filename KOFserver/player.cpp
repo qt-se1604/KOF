@@ -1,19 +1,22 @@
 #include "player.h"
 #include "room.h"
 #include "udpserver.h"
+#include <json/json.h>
+#include <iostream>
 
 using std::weak_ptr;			using std::make_shared;
+using std::cout;				using std::endl;
 
 Player::Player(int id, socketaddr addr)
 	: m_id{id}, _belongToRoom{nullptr}, m_addr{addr}, m_timeToLive{REST_TIME_TO_LIVE}
 {}
 
-bool Player::isRoomOwner()
+/*bool Player::isRoomOwner()
 {
 	if(_belongToRoom.use_count() == 0)
 		return false;
     return _belongToRoom->amITheRoomOwner(weak_from_this());
-}
+}*/
 
 bool Player::myRoomIsNotFull()
 {
@@ -24,7 +27,8 @@ bool Player::myRoomIsNotFull()
 
 void Player::createRoom(int roomId)
 {
-	_belongToRoom = make_shared<Room>(roomId, weak_from_this());
+	_belongToRoom = make_shared<Room>(roomId);
+	_belongToRoom->joinMember(weak_from_this());
 }
 
 bool Player::joinInRoom(std::weak_ptr<Room> stay)
@@ -40,6 +44,28 @@ bool Player::joinInRoom(std::weak_ptr<Room> stay)
 weak_ptr<Room> Player::myRoom()
 {
     return _belongToRoom;
+}
+
+bool Player::setMyRoom(transimissionMessage &message)
+{
+	if(_belongToRoom.use_count() == 0)
+	{
+		cout << "Faild to set room, not create room yet" << endl;
+		return false;
+	}
+	_belongToRoom->setting(message);
+	return true;
+}
+
+void Player::quitRoom()
+{
+	cout << "Player " << m_id << " quit room" << endl;
+	_belongToRoom->memberExit(weak_from_this());
+}
+
+void Player::destroyMyRoom()
+{
+	_belongToRoom = nullptr;
 }
 
 int Player::id() const
@@ -63,8 +89,7 @@ void Player::exitTheGame()
 {
 	if(_belongToRoom.use_count() == 0)
 		return;
-    _belongToRoom->memberExit(weak_from_this());
-    _belongToRoom = nullptr;
+	_belongToRoom->memberExit(weak_from_this());
 }
 
 void Player::sendToMe(transimissionMessage message)

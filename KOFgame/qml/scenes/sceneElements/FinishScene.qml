@@ -8,6 +8,7 @@ SceneBase {
 
     property bool gameWon
     signal togamepress
+	property alias againButton : againButton
 
     Text{
         id: scoreshow
@@ -28,10 +29,24 @@ SceneBase {
             gameScene.viewPort.gametruetime.timeeetotal.restart()
             gameScene.viewPort.gametruetime.totaltime = gameScene.viewPort.gametruetime.timeeetotal.interval/1000
             backButtonPressed()
+			socket.sendState("quitRoom", true)
         }
     }
+	Connections {
+		target: socket
+		onQuitRoomChanged: {
+			if(isQuitRoom) {
+				gameScene.viewPort.player.blood=100
+				gameScene.viewPort.enemy.blood=100
+				gameScene.viewPort.gametruetime.timeeetotal.restart()
+				gameScene.viewPort.gametruetime.totaltime = gameScene.viewPort.gametruetime.timeeetotal.interval/1000
+				againButton.enabled = false
+			}
+		}
+	}
 
     PlatformerImageButton{
+		id: againButton
         width: 60
         height: 40
         anchors.left:  settlementscene.gameWindowAnchorItem.left

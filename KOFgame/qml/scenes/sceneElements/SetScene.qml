@@ -29,7 +29,7 @@ SceneBase{
         source: "../../../assets/ui/menuB/MenuB01.png"
         MouseArea{
             anchors.fill:parent
-            onClicked: {
+			onClicked: {
                 if(timebuttom===0){
                     time60()
                     socket.sendState("time", 60)
@@ -38,6 +38,7 @@ SceneBase{
                     time8()
                     socket.sendState("time", 90)
                 }
+
                 if(musicbuttom===0){
                     music1()
                     socket.sendState("music", 1)
@@ -46,14 +47,17 @@ SceneBase{
                     music2()
                     socket.sendState("music", 2)
                 }
-                if(backgroundbuttom===0){
+
+				if(backgroundbuttom === 0) {
                     background1()
-                    socket.sendState("bsckground", 1)
+					socket.sendState("background", 1)
                 }
-                else{
+				else {
                     background2()
-                    socket.sendState("time", 60)
+					socket.sendState("background", 2)
                 }
+
+				socket.sendState("createRoom",true)
                 startgamenow()
             }
         }

@@ -3,8 +3,8 @@ import VPlay 2.0
 import "../scenes"
 
 EntityBase {
-    width: gameScene.gridSize*2
-    height: gameScene.gridSize*2
+	width: gameScene.gridSize*1.5
+	height: gameScene.gridSize*1.5
 
     entityType: "projectile"
 
@@ -63,7 +63,7 @@ EntityBase {
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.verticalCenter: parent.verticalCenter
         bodyType: Body.Dynamic
-        collisionTestingOnlyMode: true
+		collisionTestingOnlyMode: true
     }
     function selectfireImage(){
         if(face)

@@ -4,15 +4,13 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.3'
+        classpath 'com.android.tools.build:gradle:2.2.3'
     }
 }
 
 allprojects {
     repositories {
         jcenter()
-        maven { url 'https://maven.google.com' }
-        maven { url 'https://sdk.v-play.net/maven/' }
     }
 }
 
@@ -20,10 +18,6 @@ apply plugin: 'com.android.application'
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-
-    compile "com.android.support:support-core-utils:27.1.0"
-    compile "com.android.support:appcompat-v7:27.1.0"
-
 }
 
 android {
@@ -41,9 +35,8 @@ android {
      *******************************************************/
 
     compileSdkVersion androidCompileSdkVersion.toInteger()
-    buildToolsVersion androidBuildToolsVersion
 
-    defaultConfig.applicationId = 'com.qtse1604..KOF'
+    buildToolsVersion androidBuildToolsVersion
 
     sourceSets {
         main {
@@ -62,4 +55,3 @@ android {
         abortOnError false
     }
 }
-

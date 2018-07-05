@@ -106,6 +106,15 @@ public:
                         emit jumpChanged(jump);
                     }
                 }
+				if(object.contains("quitRoom"))
+				{
+					QJsonValue value = object.value("quitRoom");
+					if(value.isBool())
+					{
+						bool quitRoom = value.toVariant().toBool();
+						emit quitRoomChanged(quitRoom);
+					}
+				}
             }
         }
     }
@@ -119,7 +128,7 @@ signals:
     void backgroundChanged(double background);
     void findgameChanged(bool findgame);
     void jumpChanged(bool jump);
-
+	void quitRoomChanged(bool isQuitRoom);
 };
 
 #endif // JSONANALYSIS_HPP

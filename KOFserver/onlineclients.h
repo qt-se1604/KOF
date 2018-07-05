@@ -10,7 +10,7 @@ class Player;
 class Room;
 
 enum class PlayerRequest{
-    login, createRoom, JoinRoom, relay
+	login, createRoom, JoinRoom, relay, setRoom, quitRoom
 };
 
 class OnlineClients {

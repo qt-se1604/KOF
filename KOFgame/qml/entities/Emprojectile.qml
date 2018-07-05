@@ -3,8 +3,8 @@ import VPlay 2.0
 import "../scenes"
 
 EntityBase {
-    width: gameScene.gridSize*2
-    height: gameScene.gridSize*2
+	width: gameScene.gridSize*1.5
+	height: gameScene.gridSize*1.5
 
     entityType: "Enemyprojectile"
 

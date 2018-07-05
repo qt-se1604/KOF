@@ -11,21 +11,26 @@ class Player;
 
 class Room {
 public:
-	Room(int id, std::weak_ptr<Player> isroomOwner);
+	Room(int id);
 
-    bool amITheRoomOwner(std::weak_ptr<Player> isRoomOwner);
+	//bool amITheRoomOwner(std::weak_ptr<Player> isRoomOwner);
     bool isFull();
 	int id() const;
     bool joinMember(std::weak_ptr<Player> member);
     void memberExit(std::weak_ptr<Player> member);
+	void setting(transimissionMessage &message);
     void relayMessagesToMembers(std::weak_ptr<Player> sender, transimissionMessage &message);
 	void multicaseMessagesToMembers(transimissionMessage &message);
 
 private:
 	int m_id;
     int m_currentRoomMemberNumber;
-    std::weak_ptr<Player> _roomOwner;
-    std::weak_ptr<Player> _members;
+	std::list<std::weak_ptr<Player>> _members;
+	//bool m_destroyLater;
+
+	int m_time;
+	int m_music;
+	int m_backgroud;
 };
 
 #endif // ROOM_H

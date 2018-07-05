@@ -5,14 +5,13 @@ EntityBase {
     id: enemy
     entityType: "enemy"
     width: 2.5 * gameScene.gridSize
-    height: 4 * gameScene.gridSize
+	height: 3.5 * gameScene.gridSize
     property int enemyaction: 0
     property bool  enemyface: true
     property bool actionend:true
     MultiResolutionImage {
         id:playerImage
         anchors.fill:collider
-
     }
     property double blood: 100
     property int  imagenumber: 1

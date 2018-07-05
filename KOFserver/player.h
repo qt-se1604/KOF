@@ -12,11 +12,14 @@ class Player : public std::enable_shared_from_this<Player> {
 public:
 	Player(int id, socketaddr addr);
 
-    bool isRoomOwner();
+	//bool isRoomOwner();
     bool myRoomIsNotFull();
 	void createRoom(int roomId);
     bool joinInRoom(std::weak_ptr<Room> stay);
     std::weak_ptr<Room> myRoom();
+	bool setMyRoom(transimissionMessage &message);
+	void quitRoom();
+	void destroyMyRoom();
 
 	int id() const;
     int updateTimeToLive(bool isRecivedDataFromThis);

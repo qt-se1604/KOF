@@ -23,7 +23,7 @@ GameWindow {
 
     UdpSocket {
         id: socket
-        url: "127.0.0.1:10000"
+		url: "10.253.161.100:10000"
 
         onXChanged: {
             gameScene.enemyplayer.x = xValue
@@ -54,6 +54,11 @@ GameWindow {
         onBackgroundChanged: {
             setbackground = background
         }
+		onFindgameChanged: {
+			console.log("findgame")
+			if(findgame)
+				loadingScene.togameScene()
+		}
 
     }
 
@@ -62,6 +67,7 @@ GameWindow {
             loadingScene.waittimer.running = true
         else
             loadingScene.waittimer.running = false
+		finishScene.againButton.enabled = true
     }
 
     AudioManager{
@@ -125,11 +131,15 @@ GameWindow {
         }
         onBackButtonPressed: gameWindow.state = "menu"
         onTogameScene: {
-            if(gameWindow.state !== "menu")
+			if(gameWindow.state !== "menu") {
                 gameWindow.state = "game"
+				gameScene.timeeetotal.restart()
+				gameScene.timeereduce.restart()
+			}
         }
 
-    }
+	}
+
     GameScene{
         id: gameScene
         playerID:gameWindow.playeridentity

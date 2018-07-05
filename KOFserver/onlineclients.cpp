@@ -54,7 +54,8 @@ void OnlineClients::handlePlayerRequest(std::weak_ptr<Player> player, transimiss
     switch(requestType)
     {
         case PlayerRequest::createRoom:
-            createRoom(player);
+			if(player.lock()->myRoom().use_count() == 0)
+				createRoom(player);
             break;
         case PlayerRequest::JoinRoom:
             joinRoom(player);
@@ -62,6 +63,14 @@ void OnlineClients::handlePlayerRequest(std::weak_ptr<Player> player, transimiss
         case PlayerRequest::relay:
 			player.lock()->messageToMyRoom(message);
             break;
+		case PlayerRequest::setRoom:
+			if(player.lock()->myRoom().use_count() == 0)
+				createRoom(player);
+			player.lock()->setMyRoom(message);
+			break;
+		case PlayerRequest::quitRoom:
+			player.lock()->quitRoom();
+			break;
         default:
             ;//others
     }
@@ -78,7 +87,7 @@ bool OnlineClients::joinRoom(std::weak_ptr<Player> roomMember)
 {
 	cout << "Player " << roomMember.lock()->id() << " try to find room" << endl;
     for(shared_ptr<Player> player : _players)
-		if(player->isRoomOwner() && player->myRoomIsNotFull())
+		if(player->myRoomIsNotFull())
         {
 			roomMember.lock()->joinInRoom(player->myRoom());
 			cout << "Player " << roomMember.lock()->id() << " joined room " << player->myRoom().lock()->id() << endl;

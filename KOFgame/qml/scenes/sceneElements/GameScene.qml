@@ -13,6 +13,8 @@ SceneBase {
     property int offsetBeforeScrollingStarts: 400
     property alias playerX: player.x
     property alias enemyplayer: enemy
+	property alias timeereduce:timeereduce
+	property alias timeeetotal:timeeetotal
 
     property alias viewPort:viewPort
 
@@ -27,6 +29,12 @@ SceneBase {
     property int gamebackground
 
 
+	onGamebackgroundChanged: {
+		if(gamebackground == 1)
+			backgroud.source = ""
+		else
+			backgroud.source = "../../../assets/blood/beijing.jpg"
+	}
 
 
 
@@ -41,16 +49,17 @@ SceneBase {
     Rectangle {
         anchors.fill: gameScene.gameWindowAnchorItem
         Image {
-            anchors.fill:parent
-            source: gamebackground==1? "../../../assets/blood/beijing.jpg":""
+			id: backgroud
+			anchors.fill:parent
+			//source: gamebackground==1? "../../../assets/blood/beijing.jpg":""
         }
     }
 
 
     Blood{
         id:bloodall
-        bloodvolume1.width:player.blood
-        bloodvolume2.width:enemy.blood
+		bloodvolume1.width:playerID == 1 ? player.blood : enemy.blood
+		bloodvolume2.width:playerID == 2 ? player.blood : enemy.blood
         bloodvolume2.onWidthChanged:
         {
             bloodvolume2.parent.x+=10
@@ -79,8 +88,9 @@ SceneBase {
         anchors.top :parent.top
         anchors.topMargin: 0.5*gameScene.gridSize
         anchors.horizontalCenter: parent.horizontalCenter
-        width: 3*gameScene.gridSize
-        height: 2*gameScene.gridSize
+		width: 1*gameScene.gridSize
+		height: 1*gameScene.gridSize
+		color: "#00ffffff"
         property int totaltime
         property alias timeereduce:timeereduce
         property alias timeeetotal:timeeetotal
@@ -90,8 +100,7 @@ SceneBase {
             id: timeeetotal
             running: true
             repeat: false
-            interval: gametime==1?60000:90000
-
+			interval: gametime == 1 ? 60000 : 90000
         }
 
         Timer{
@@ -102,6 +111,8 @@ SceneBase {
             onTriggered: gametruetime.totaltime -= 1
         }
         Text{
+			anchors.horizontalCenter: parent.horizontalCenter
+			anchors.verticalCenter: parent.verticalCenter
             color: "red"
             text: gametruetime.totaltime
         }
@@ -113,18 +124,18 @@ SceneBase {
         height: level.height
         width: level.width
         anchors.bottom: gameScene.gameWindowAnchorItem.bottom
-        property double beforexoffsets
-        property double latterxoffsets
+		property double beforexoffsets
+		property double latterxoffsets
         property alias player: player
         property alias enemy: enemy
 
         property alias gametruetime: gametruetime
-        //x: offset()
+		x: offset()
 
         //物理世界设置
         PhysicsWorld {
             id: physicsWorld
-            gravity: Qt.point(0, 10)
+			gravity: Qt.point(0, 20)
             debugDrawVisible: true // enable this for physics debugging
             z: 1000
 
@@ -149,8 +160,8 @@ SceneBase {
         // 玩家1
         Player {
             id: player
-            x: 11 * gameScene.gridSize
-            y: 4 * gameScene.gridSize
+			x: playerID == 1 ? 11 * gameScene.gridSize : 18.5 * gameScene.gridSize
+			y: playerID == 1 ? 4 * gameScene.gridSize : 4 * gameScene.gridSize
             playerController: controller
 
             onXChanged: {
@@ -182,8 +193,8 @@ SceneBase {
         //敌人
         Enemy {
             id: enemy
-            x: 18.5 * gameScene.gridSize
-            y: 4 * gameScene.gridSize
+			x: playerID == 1 ? 11 * gameScene.gridSize : 18.5 * gameScene.gridSize
+			y: playerID == 1 ? 4 * gameScene.gridSize : 4 * gameScene.gridSize
             onXChanged: {
                 if(enemy.x<= 0 ){
                     enemy.x = 0
@@ -279,14 +290,11 @@ SceneBase {
 
     Connections{
         target: socket
-        onJumpChanged:{
-            console.debug("jjjjjjjjjjjjjj")
+		onJumpChanged:{
             enemy.enemyaction=4
             enemy.imagenumber = 1
         }
-    }
-
-
+	}
 
     OperationInterface {
         id: operateface
@@ -305,14 +313,10 @@ SceneBase {
 
             player.imagenumber=1
         }
-        onAttackPressed: {
-            console.log("aaaaaaaaaaaaaaaaaaaa")
+		onAttackPressed: {
             if(operateface.farattackinterval === 0){
                 farattacktimer.running = true
-                operateface.farattackinterval += 1
-                 console.log("aaabbbbbbbbbbbbbbbbbbaaaaaa")
-                console.debug(player.actionend)
-                console.debug(player.imagenumber)
+				operateface.farattackinterval += 1
                 if(player.actionend==true){
                     player.imagenumber=1
                     player.actionend=false
