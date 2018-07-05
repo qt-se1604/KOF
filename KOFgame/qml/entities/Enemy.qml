@@ -215,10 +215,10 @@ default:break;
                 }
                 switch(imagenumber)
                 {
-                case 1:playerImage.source="../../assets/player/action/houtui/1.png";break;
-                case 2:playerImage.source="../../assets/player/action/houtui/2.png";break;
-                case 3:playerImage.source="../../assets/player/action/houtui/3.png";break;
-                case 4:playerImage.source="../../assets/player/action/houtui/4.png";break;
+                case 1:playerImage.source="../../assets/player/action/houtui/11.png";break;
+                case 2:playerImage.source="../../assets/player/action/houtui/12.png";break;
+                case 3:playerImage.source="../../assets/player/action/houtui/13.png";break;
+                case 4:playerImage.source="../../assets/player/action/houtui/14.png";break;
                 default:break;
                 }
             }
@@ -379,10 +379,10 @@ default:break;
                 }
                 switch(imagenumber)
                 {
-                case 1:playerImage.source="../../assets/player/action/houtui/11.png";break;
-                case 2:playerImage.source="../../assets/player/action/houtui/12.png";break;
-                case 3:playerImage.source="../../assets/player/action/houtui/13.png";break;
-                case 4:playerImage.source="../../assets/player/action/houtui/14.png";break;
+                case 1:playerImage.source="../../assets/player/action/houtui/1.png";break;
+                case 2:playerImage.source="../../assets/player/action/houtui/2.png";break;
+                case 3:playerImage.source="../../assets/player/action/houtui/3.png";break;
+                case 4:playerImage.source="../../assets/player/action/houtui/4.png";break;
                     default:break;
 
 

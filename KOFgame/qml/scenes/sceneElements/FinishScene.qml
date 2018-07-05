@@ -26,8 +26,7 @@ SceneBase {
         onClicked:{
             gameScene.viewPort.player.blood=100
             gameScene.viewPort.enemy.blood=100
-            gameScene.viewPort.gametruetime.timeeetotal.restart()
-            gameScene.viewPort.gametruetime.totaltime = gameScene.viewPort.gametruetime.timeeetotal.interval/1000
+
             backButtonPressed()
 			socket.sendState("quitRoom", true)
         }
@@ -38,8 +37,7 @@ SceneBase {
 			if(isQuitRoom) {
 				gameScene.viewPort.player.blood=100
 				gameScene.viewPort.enemy.blood=100
-				gameScene.viewPort.gametruetime.timeeetotal.restart()
-				gameScene.viewPort.gametruetime.totaltime = gameScene.viewPort.gametruetime.timeeetotal.interval/1000
+
 				againButton.enabled = false
 			}
 		}

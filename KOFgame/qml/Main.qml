@@ -63,10 +63,16 @@ GameWindow {
     }
 
     onStateChanged: {
+        gameScene.timeeetotal.stop()
         if(gameWindow.state === "loading")
             loadingScene.waittimer.running = true
         else
             loadingScene.waittimer.running = false
+        if(gameWindow.state === "game") {
+            gameScene.timeeetotal.restart()
+            gameScene.timeereduce.restart()
+            gametruetime.totaltime = settime
+        }
 		finishScene.againButton.enabled = true
     }
 
@@ -133,8 +139,6 @@ GameWindow {
         onTogameScene: {
 			if(gameWindow.state !== "menu") {
                 gameWindow.state = "game"
-				gameScene.timeeetotal.restart()
-				gameScene.timeereduce.restart()
 			}
         }
 
@@ -188,7 +192,7 @@ GameWindow {
         State {
             name: "finish"
             PropertyChanges { target: finishScene;opacity :1}
-            PropertyChanges {target: gameWindow;activeScene:finshScene}
+            PropertyChanges {target: gameWindow;activeScene:finishScene}
         }
     ]
 }

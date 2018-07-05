@@ -15,6 +15,7 @@ SceneBase {
     property alias enemyplayer: enemy
     property alias timeereduce:timeereduce
     property alias timeeetotal:timeeetotal
+    property alias totaltime: gametruetime.totaltime
 
     property alias viewPort:viewPort
 
@@ -31,9 +32,9 @@ SceneBase {
 
     onGamebackgroundChanged: {
         if(gamebackground == 1)
-            backgroud.source = ""
+            backgroud.source = "../../../assets/background/beijing1.jpg"
         else
-            backgroud.source = "../../../assets/blood/beijing.jpg"
+            backgroud.source = "../../../assets/background/beijing2.jpg"
     }
 
 
@@ -51,7 +52,7 @@ SceneBase {
         Image {
             id: backgroud
             anchors.fill:parent
-            //source: gamebackground==1? "../../../assets/blood/beijing.jpg":""
+
         }
     }
 
@@ -88,9 +89,10 @@ SceneBase {
         anchors.top :parent.top
         anchors.topMargin: 0.5*gameScene.gridSize
         anchors.horizontalCenter: parent.horizontalCenter
-        width: 1*gameScene.gridSize
-        height: 1*gameScene.gridSize
-        color: "#00ffffff"
+//        width: 1*gameScene.gridSize
+//        height: 1*gameScene.gridSize
+
+
         property int totaltime
         property alias timeereduce:timeereduce
         property alias timeeetotal:timeeetotal
@@ -98,14 +100,21 @@ SceneBase {
         totaltime: gametime==1?60:90
         Timer{
             id: timeeetotal
-            running: true
+            running: false
             repeat: false
-            interval: gametime == 1 ? 60000 : 90000
+            interval: gametime == 1 ? 6000 : 9000
+            onTriggered: {
+//                timeeetotal.stop()
+//                timeereduce.stop()
+
+                toGameOver()
+
+            }
         }
 
         Timer{
             id: timeereduce
-            running: true
+            running: false
             interval: 1000
             repeat: true
             onTriggered: gametruetime.totaltime -= 1

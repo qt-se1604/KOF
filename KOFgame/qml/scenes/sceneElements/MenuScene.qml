@@ -102,7 +102,7 @@ SceneBase{
 
     MultiResolutionImage {
       id: soundButton
-      source: settings.soundEnabled ? "../../assets/ui   `/sound_on.png" : "../../assets/ui/sound_off.png"
+      source: settings.soundEnabled ? "../../assets/ui/sound_on.png" : "../../assets/ui/sound_off.png"
       opacity: settings.soundEnabled ? 0.9 : 0.4
 
       anchors.top: musicButton.bottom
@@ -131,7 +131,7 @@ SceneBase{
     Text{
         anchors.left: parent.left
         anchors.top: parent.top
-        text: "v0.85"
+        text: "v0.9"
                 color: "#E3E3E3"
    }
 

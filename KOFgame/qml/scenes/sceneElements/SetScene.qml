@@ -24,12 +24,13 @@ SceneBase{
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.top :parent.top
         anchors.topMargin: parent.height/10
-        width: parent.width/5
-        height: parent.height/5
-        source: "../../../assets/ui/menuB/MenuB01.png"
+        width: parent.width/6
+        height: parent.height/6
+        source: "../../../assets/ui/shezhi.png"
         MouseArea{
             anchors.fill:parent
 			onClicked: {
+
                 if(timebuttom===0){
                     time60()
                     socket.sendState("time", 60)
@@ -71,7 +72,11 @@ SceneBase{
         anchors.leftMargin: parent.width/4
         width: parent.width/12
         height: parent.height/15
-        source: "../../../assets/ui/menuB/MenuB01.png"
+//        source: "../../../assets/ui/menuB/MenuB01.png"
+        Text{
+            text:"时间："
+            color: "white"
+        }
     }
     MultiResolutionImage{
         id: gamemusicimage
@@ -82,7 +87,11 @@ SceneBase{
         anchors.leftMargin: parent.width/4
         width: parent.width/12
         height: parent.height/15
-        source: "../../../assets/ui/menuB/MenuB01.png"
+//        source: "../../../assets/ui/menuB/MenuB01.png"
+        Text{
+            text:"音乐："
+            color:"white"
+        }
     }
     MultiResolutionImage{
         id: gamebackground
@@ -92,7 +101,12 @@ SceneBase{
         anchors.leftMargin: parent.width/4
         width: parent.width/12
         height: parent.height/15
-        source: "../../../assets/ui/menuB/MenuB01.png"
+//        source: "../../../assets/ui/menuB/MenuB01.png"
+        Text{
+            text:"地图："
+            anchors.fill:parent
+            color: "white"
+        }
     }
 
 
@@ -105,7 +119,7 @@ SceneBase{
         anchors.leftMargin: parent.width/4
         width: parent.width/20
         height: parent.height/20
-        source: "../../../assets/ui/menuB/MenuB01.png"
+        source: "../../../assets/ui/anniu/right.png"
         MouseArea{
             anchors.fill: parent
             onClicked: {
@@ -124,7 +138,11 @@ SceneBase{
         anchors.leftMargin: parent.width/25
         width: parent.width/20
         height: parent.height/20
-        source: timebuttom>0? "../../../assets/ui/menuB/MenuB01.png" : "../../../assets/ui/menuB/1v2C.png"
+//        source: timebuttom>0? "../../../assets/ui/menuB/MenuB01.png" : "../../../assets/ui/menuB/1v2C.png"
+        Text{
+            text:timebuttom>0? "60":"90"
+            color: "white"
+        }
     }
 
 
@@ -137,7 +155,7 @@ SceneBase{
         anchors.rightMargin: parent.width/5
         width: parent.width/20
         height: parent.height/20
-        source: "../../../assets/ui/menuB/MenuB01.png"
+        source: "../../../assets/ui/anniu/left.png"
         MouseArea{
             anchors.fill: parent
             onClicked: {
@@ -157,7 +175,7 @@ SceneBase{
         anchors.leftMargin: parent.width/4
         width: parent.width/20
         height: parent.height/20
-        source: "../../../assets/ui/menuB/MenuB01.png"
+        source: "../../../assets/ui/anniu/right.png"
         MouseArea{
             anchors.fill: parent
             onClicked: {
@@ -176,7 +194,11 @@ SceneBase{
         anchors.leftMargin: parent.width/20
         width: parent.width/20
         height: parent.height/20
-        source: musicbuttom > 0? "../../../assets/ui/menuB/MenuB01.png" : "../../../assets/ui/menuB/1v2C.png"
+//        source: musicbuttom > 0? "../../../assets/ui/menuB/MenuB01.png" : "../../../assets/ui/menuB/1v2C.png"
+        Text{
+            text:musicbuttom > 0?"1":"2"
+            color: "white"
+        }
     }
 
 
@@ -188,7 +210,7 @@ SceneBase{
         anchors.rightMargin: parent.width/5
         width: parent.width/20
         height: parent.height/20
-        source: "../../../assets/ui/menuB/MenuB01.png"
+        source: "../../../assets/ui/anniu/left.png"
         MouseArea{
             anchors.fill: parent
             onClicked: {
@@ -208,7 +230,7 @@ SceneBase{
         anchors.leftMargin: parent.width/4
         width: parent.width/20
         height: parent.height/20
-        source: "../../../assets/ui/menuB/MenuB01.png"
+        source: "../../../assets/ui/anniu/right.png"
         MouseArea{
             anchors.fill: parent
             onClicked: {
@@ -227,7 +249,11 @@ SceneBase{
         anchors.leftMargin: parent.width/20
         width: parent.width/20
         height: parent.height/20
-        source: backgroundbuttom > 0? "../../../assets/ui/menuB/MenuB01.png" : "../../../assets/ui/menuB/1v2C.png"
+//        source: backgroundbuttom > 0? "../../../assets/ui/menuB/MenuB01.png" : "../../../assets/ui/menuB/1v2C.png"
+        Text{
+            text:backgroundbuttom > 0?"1":"2"
+            color: "white"
+        }
     }
 
     MultiResolutionImage{
@@ -238,7 +264,7 @@ SceneBase{
         anchors.rightMargin: parent.width/5
         width: parent.width/20
         height: parent.height/20
-        source: "../../../assets/ui/menuB/MenuB01.png"
+        source: "../../../assets/ui/anniu/left.png"
         MouseArea{
             anchors.fill: parent
             onClicked: {
