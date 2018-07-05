@@ -29,16 +29,12 @@ SceneBase {
     property int gamemusic
     property int gamebackground
 
-
     onGamebackgroundChanged: {
         if(gamebackground == 1)
             backgroud.source = "../../../assets/background/beijing1.jpg"
         else
             backgroud.source = "../../../assets/background/beijing2.jpg"
     }
-
-
-
 
     EntityManager {
         id: entityManager
@@ -52,10 +48,8 @@ SceneBase {
         Image {
             id: backgroud
             anchors.fill:parent
-
         }
     }
-
 
     Blood{
         id:bloodall
@@ -68,18 +62,17 @@ SceneBase {
             {
                 bloodvolume2.parent.x=parent.x+340
                 finishScene.gameWon = true
+				resetGame()
                 toGameOver()
-
             }
 
         }
         bloodvolume1.onWidthChanged: {
             if(bloodvolume1.width<=0)
             {
-
                 finishScene.gameWon = false
+				resetGame()
                 toGameOver()
-
             }
         }
     }
@@ -102,13 +95,10 @@ SceneBase {
             id: timeeetotal
             running: false
             repeat: false
-            interval: gametime == 1 ? 6000 : 9000
-            onTriggered: {
-//                timeeetotal.stop()
-//                timeereduce.stop()
-
+			interval: gametime == 1 ? 60000 : 90000
+			onTriggered: {
+				resetGame()
                 toGameOver()
-
             }
         }
 
@@ -399,17 +389,6 @@ SceneBase {
             }
         }
 
-        PlatformerImageButton {
-            anchors.verticalCenter: parent.verticalCenter
-            anchors.horizontalCenter: parent.horizontalCenter
-            width: 80
-            height: 50
-            color: "yellow"
-            text: "OVER"
-            onClicked: {
-                toGameOver()
-            }
-        }
     }
     Timer{
         id:closeattacktimer
@@ -430,6 +409,15 @@ SceneBase {
         }
     }
 
+
+	function resetGame() {
+		timeereduce.stop()
+		timeeetotal.stop()
+		player.x = playerID == 1 ? 11 * gameScene.gridSize : 18.5 * gameScene.gridSize
+		player.y = playerID == 1 ? 4 * gameScene.gridSize : 4 * gameScene.gridSize
+		enemy.x = playerID == 1 ? 11 * gameScene.gridSize : 18.5 * gameScene.gridSize
+		enemy.y = playerID == 1 ? 4 * gameScene.gridSize : 4 * gameScene.gridSize
+	}
 
     function fireother(){
         var offset = Qt.point(gameScene.gridSize, 0)

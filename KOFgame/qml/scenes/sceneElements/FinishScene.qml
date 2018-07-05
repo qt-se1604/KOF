@@ -10,6 +10,11 @@ SceneBase {
     signal togamepress
 	property alias againButton : againButton
 
+	MultiResolutionImage {
+		anchors.fill: parent
+		source: "../../../assets/background/over.jpg"
+	}
+
     Text{
         id: scoreshow
         anchors.centerIn: parent
