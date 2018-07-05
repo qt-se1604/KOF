@@ -82,14 +82,11 @@ SceneBase {
         anchors.top :parent.top
         anchors.topMargin: 0.5*gameScene.gridSize
         anchors.horizontalCenter: parent.horizontalCenter
-//        width: 1*gameScene.gridSize
-//        height: 1*gameScene.gridSize
 
 
         property int totaltime
         property alias timeereduce:timeereduce
         property alias timeeetotal:timeeetotal
-        //            property alias totaltime:totaltime
         totaltime: gametime==1?60:90
         Timer{
             id: timeeetotal
@@ -135,7 +132,7 @@ SceneBase {
         PhysicsWorld {
             id: physicsWorld
             gravity: Qt.point(0, 20)
-            debugDrawVisible: true // enable this for physics debugging
+            debugDrawVisible: false // enable this for physics debugging
             z: 1000
 
             onPreSolve: {
@@ -228,6 +225,12 @@ SceneBase {
             id: closerangattack
             Closerangattack {
                 parent: viewPort
+            }
+        }
+        Component{
+            id:enemycloserangattack
+            Emcloserangattack{
+                parent:viewPort
             }
         }
         //判死传感器
@@ -328,12 +331,31 @@ SceneBase {
             player.beenattack = false
         }
     }
+    Connections{
+        target: player
+        onBeenCloseAttacked:{
+            beencloseattackedtimer.running = true
+            if(player.x > enemy.x)
+                player.x+=1*gameScene.gridSize
+            else if(player.x<enemy.x)
+                player.x -= 1*gameScene.gridSize
+        }
+    }
+    Timer{
+        id: beencloseattackedtimer
+        interval: 2000
+        repeat: false
+        running: false
+        onTriggered: {
+            player.beencloseattack = false
+        }
+    }
 
     OperationInterface {
         id: operateface
         anchors.fill: parent
         onControllerPositionChanged: {
-            if(player.beenattack == false){
+            if(player.beenattack == false&&player.beencloseattack == false){
                 controller.xAxis = controllerDirection.x
                 controller.yAxis = controllerDirection.y
                 if(controller.xAxis>0)
@@ -348,7 +370,7 @@ SceneBase {
             }
         }
         onAttackPressed: {
-            if(player.beenattack == false){
+            if(player.beenattack == false&&player.beencloseattack == false){
                 if(operateface.farattackinterval === 0){
                     farattacktimer.running = true
                     operateface.farattackinterval += 1
@@ -363,7 +385,7 @@ SceneBase {
             }
         }
         onJumpPressed: {
-            if(player.beenattack == false){
+            if(player.beenattack == false&&player.beencloseattack == false){
                 if(player.actionend==true){
                     player.imagenumber=1
                     player.actionend=false
@@ -374,7 +396,7 @@ SceneBase {
             }
         }
         onCloseRangAttackPressed: {
-            if(player.beenattack == false){
+            if(player.beenattack == false&&player.beencloseattack == false){
                 if(operateface.closeattackinterval === 0){
                     closeattacktimer.running = true
                     operateface.closeattackinterval++
@@ -430,12 +452,10 @@ SceneBase {
         var realX = enemy.x - player.x /*scene.gameWindowAnchorItem.width*/
         var destination
         if (realX > 0) {
-            destination = Qt.point(-15*gameScene.gridSize, enemy.y)
+            destination = Qt.point(-32*gameScene.gridSize, enemy.y)
         } else if (realX < 0) {
-            destination = Qt.point(15*gameScene.gridSize, enemy.y)
+            destination = Qt.point(32*gameScene.gridSize, enemy.y)
         }
-
-
         entityManager.createEntityFromComponentWithProperties(
                     enemyprojectile, {
                         destination: destination,
@@ -454,9 +474,9 @@ SceneBase {
         var realX = player.x - enemy.x /*scene.gameWindowAnchorItem.width*/
         var destination
         if (realX > 0) {
-            destination = Qt.point(-15*gameScene.gridSize, player.y)
+            destination = Qt.point(-32*gameScene.gridSize, player.y)
         } else if (realX < 0) {
-            destination = Qt.point(15*gameScene.gridSize,player.y)
+            destination = Qt.point(32*gameScene.gridSize,player.y)
         }
 
         entityManager.createEntityFromComponentWithProperties(projectile, {
@@ -505,7 +525,7 @@ SceneBase {
 
         }
 
-        entityManager.createEntityFromComponentWithProperties(closerangattack, {
+        entityManager.createEntityFromComponentWithProperties(enemycloserangattack, {
                                                                   x:enemy.x+attackoffset.x,
                                                                   y:0/*+ attackoffset.y*/
                                                               })

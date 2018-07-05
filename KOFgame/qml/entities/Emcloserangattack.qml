@@ -5,13 +5,9 @@ import "../scenes"
 EntityBase {
     width: gameScene.gridSize*6
     height: gameScene.gridSize*9
-
-
-
-
     signal attackfinish()
 
-    entityType: "closerangattack"
+    entityType: "Enemycloserangattack"
 
     property double x2
     property double y2
@@ -20,20 +16,6 @@ EntityBase {
         id:dazhao
         anchors.fill: a
     }
-
-    Timer{
-        id:closeattacktimedelete
-        running: true
-        interval: 2000
-        repeat: false
-        onTriggered: {
-            removeEntity()
-        }
-    }
-
-
-
-
     BoxCollider {
         id: a
         anchors.verticalCenter: parent.verticalCenter
@@ -50,7 +32,6 @@ EntityBase {
         running: true
         onTriggered: {
             removeEntity()
-//            attackfinish()
         }
     }
     property int imagenumber:1
@@ -62,7 +43,6 @@ EntityBase {
         onTriggered: {
             imagenumber+=1
             seletimage()
-
         }
     }
     function seletimage()

@@ -37,6 +37,14 @@ EntityBase {
                 }
                 collidedEntity.removeEntity()
             }
+            else if (collidedEntity.entityType === "closerangattack") {
+                enemyaction = 6
+                imagenumber=1
+                if(blood>0)
+                {
+                    blood-=20
+                }
+            }
         }
     }
     Timer{
@@ -55,8 +63,6 @@ EntityBase {
                 enemyface=false
             }
             selectImage()
-
-
         }
     }
     function selectImage(){

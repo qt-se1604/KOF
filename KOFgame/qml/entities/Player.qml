@@ -31,6 +31,9 @@ EntityBase {
     property bool beenattack:false
     signal beenAttacked
 
+    property bool beencloseattack:false
+    signal beenCloseAttacked
+
     state: contacts > 0 ? "walking" : "jumping"
     onStateChanged: console.debug("player.state " + state)
 
@@ -70,6 +73,15 @@ EntityBase {
                     blood-=10
                 }
                 collidedEntity.removeEntity()
+            }
+            else if(collidedEntity.entityType === "Enemycloserangattack"){
+                beencloseattack = true
+                beenCloseAttacked()
+                playeraction=6
+                imagenumber=1
+                if(blood>0){
+                    blood -= 20
+                }
             }
         }
     }

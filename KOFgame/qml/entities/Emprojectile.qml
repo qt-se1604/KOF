@@ -22,7 +22,7 @@ property bool face:true
     PropertyAnimation on x {
         from: x2
         to: x2+destination.x
-        duration: 1500 //移动持续时间
+        duration: 3000 //移动持续时间
     }
 
     PropertyAnimation on y {
@@ -46,6 +46,16 @@ property bool face:true
 
             imagenumber+=1
             selectfireImage()
+        }
+    }
+
+    Timer{
+        id: deleteentity
+        running: true
+        repeat: false
+        interval: 3000
+        onTriggered: {
+            removeEntity()
         }
     }
 
