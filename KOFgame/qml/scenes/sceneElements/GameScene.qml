@@ -13,8 +13,8 @@ SceneBase {
     property int offsetBeforeScrollingStarts: 400
     property alias playerX: player.x
     property alias enemyplayer: enemy
-	property alias timeereduce:timeereduce
-	property alias timeeetotal:timeeetotal
+    property alias timeereduce:timeereduce
+    property alias timeeetotal:timeeetotal
 
     property alias viewPort:viewPort
 
@@ -29,12 +29,12 @@ SceneBase {
     property int gamebackground
 
 
-	onGamebackgroundChanged: {
-		if(gamebackground == 1)
-			backgroud.source = ""
-		else
-			backgroud.source = "../../../assets/blood/beijing.jpg"
-	}
+    onGamebackgroundChanged: {
+        if(gamebackground == 1)
+            backgroud.source = ""
+        else
+            backgroud.source = "../../../assets/blood/beijing.jpg"
+    }
 
 
 
@@ -49,17 +49,17 @@ SceneBase {
     Rectangle {
         anchors.fill: gameScene.gameWindowAnchorItem
         Image {
-			id: backgroud
-			anchors.fill:parent
-			//source: gamebackground==1? "../../../assets/blood/beijing.jpg":""
+            id: backgroud
+            anchors.fill:parent
+            //source: gamebackground==1? "../../../assets/blood/beijing.jpg":""
         }
     }
 
 
     Blood{
         id:bloodall
-		bloodvolume1.width:playerID == 1 ? player.blood : enemy.blood
-		bloodvolume2.width:playerID == 2 ? player.blood : enemy.blood
+        bloodvolume1.width:playerID == 1 ? player.blood : enemy.blood
+        bloodvolume2.width:playerID == 2 ? player.blood : enemy.blood
         bloodvolume2.onWidthChanged:
         {
             bloodvolume2.parent.x+=10
@@ -88,9 +88,9 @@ SceneBase {
         anchors.top :parent.top
         anchors.topMargin: 0.5*gameScene.gridSize
         anchors.horizontalCenter: parent.horizontalCenter
-		width: 1*gameScene.gridSize
-		height: 1*gameScene.gridSize
-		color: "#00ffffff"
+        width: 1*gameScene.gridSize
+        height: 1*gameScene.gridSize
+        color: "#00ffffff"
         property int totaltime
         property alias timeereduce:timeereduce
         property alias timeeetotal:timeeetotal
@@ -100,7 +100,7 @@ SceneBase {
             id: timeeetotal
             running: true
             repeat: false
-			interval: gametime == 1 ? 60000 : 90000
+            interval: gametime == 1 ? 60000 : 90000
         }
 
         Timer{
@@ -111,8 +111,8 @@ SceneBase {
             onTriggered: gametruetime.totaltime -= 1
         }
         Text{
-			anchors.horizontalCenter: parent.horizontalCenter
-			anchors.verticalCenter: parent.verticalCenter
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.verticalCenter: parent.verticalCenter
             color: "red"
             text: gametruetime.totaltime
         }
@@ -124,18 +124,18 @@ SceneBase {
         height: level.height
         width: level.width
         anchors.bottom: gameScene.gameWindowAnchorItem.bottom
-		property double beforexoffsets
-		property double latterxoffsets
+        property double beforexoffsets
+        property double latterxoffsets
         property alias player: player
         property alias enemy: enemy
 
         property alias gametruetime: gametruetime
-		x: offset()
+        x: offset()
 
         //物理世界设置
         PhysicsWorld {
             id: physicsWorld
-			gravity: Qt.point(0, 20)
+            gravity: Qt.point(0, 20)
             debugDrawVisible: true // enable this for physics debugging
             z: 1000
 
@@ -160,8 +160,8 @@ SceneBase {
         // 玩家1
         Player {
             id: player
-			x: playerID == 1 ? 11 * gameScene.gridSize : 18.5 * gameScene.gridSize
-			y: playerID == 1 ? 4 * gameScene.gridSize : 4 * gameScene.gridSize
+            x: playerID == 1 ? 11 * gameScene.gridSize : 18.5 * gameScene.gridSize
+            y: playerID == 1 ? 4 * gameScene.gridSize : 4 * gameScene.gridSize
             playerController: controller
 
             onXChanged: {
@@ -193,8 +193,8 @@ SceneBase {
         //敌人
         Enemy {
             id: enemy
-			x: playerID == 1 ? 11 * gameScene.gridSize : 18.5 * gameScene.gridSize
-			y: playerID == 1 ? 4 * gameScene.gridSize : 4 * gameScene.gridSize
+            x: playerID == 1 ? 11 * gameScene.gridSize : 18.5 * gameScene.gridSize
+            y: playerID == 1 ? 4 * gameScene.gridSize : 4 * gameScene.gridSize
             onXChanged: {
                 if(enemy.x<= 0 ){
                     enemy.x = 0
@@ -276,7 +276,7 @@ SceneBase {
     Connections {
         target: socket
         onFireChanged: {
-//            console.log("fire")
+            //            console.log("fire")
             if(isFire){
                 if(enemy.actionend==true){
                     enemy.imagenumber=1
@@ -287,83 +287,106 @@ SceneBase {
             }
         }
     }
+    Connections {
+        target: socket
+        onCloseattackChanged: {
+            console.log("fdssssssssssssssssssssss")
+            if(isattack){
+                if(enemy.actionend==true){
+                    enemy.imagenumber=1
+                    enemy.actionend=false
+                    enemy.enemyaction=5
+                }
+                attackother()
+            }
+        }
+    }
 
     Connections{
         target: socket
-		onJumpChanged:{
+        onJumpChanged:{
             enemy.enemyaction=4
             enemy.imagenumber = 1
         }
-	}
+    }
+
+    Connections{
+        target: player
+        onBeenAttacked:{
+            beenattackedtimer.running = true
+            if(player.x>enemy.x)
+                player.x+=0.5*gameScene.gridSize
+            else if(player.x<enemy.x)
+                player.x-=0.5*gameScene.gridSize
+        }
+    }
+    Timer{
+        id: beenattackedtimer
+        interval: 2000
+        repeat: false
+        running: false
+        onTriggered: {
+            player.beenattack = false
+        }
+    }
 
     OperationInterface {
         id: operateface
         anchors.fill: parent
         onControllerPositionChanged: {
-            controller.xAxis = controllerDirection.x
-            controller.yAxis = controllerDirection.y
-            if(controller.xAxis>0)
-            {
-                player.playeraction=1
-            }
-            else if(controller.xAxis<0)
-            {
-                player.playeraction=2
-            }
-
-            player.imagenumber=1
-        }
-		onAttackPressed: {
-            if(operateface.farattackinterval === 0){
-                farattacktimer.running = true
-				operateface.farattackinterval += 1
-                if(player.actionend==true){
-                    player.imagenumber=1
-                    player.actionend=false
-                    player.playeraction=3
+            if(player.beenattack == false){
+                controller.xAxis = controllerDirection.x
+                controller.yAxis = controllerDirection.y
+                if(controller.xAxis>0)
+                {
+                    player.playeraction=1
                 }
-                socket.sendState("fire", true)
-                firemy()
+                else if(controller.xAxis<0)
+                {
+                    player.playeraction=2
+                }
+                player.imagenumber=1
+            }
+        }
+        onAttackPressed: {
+            if(player.beenattack == false){
+                if(operateface.farattackinterval === 0){
+                    farattacktimer.running = true
+                    operateface.farattackinterval += 1
+                    if(player.actionend==true){
+                        player.imagenumber=1
+                        player.actionend=false
+                        player.playeraction=3
+                    }
+                    socket.sendState("fire", isAttack)
+                    firemy()
+                }
             }
         }
         onJumpPressed: {
-//            if(operateface.jumpinterval === 0){
-//                operateface.jumpinterval++
-//                jumptimer.running = true
+            if(player.beenattack == false){
                 if(player.actionend==true){
-
                     player.imagenumber=1
                     player.actionend=false
                     player.playeraction=4
-
                 }
-                 player.jump()
-                 socket.sendState("jump", isJump)
-//            }
-
-
+                player.jump()
+                socket.sendState("jump", isJump)
+            }
         }
         onCloseRangAttackPressed: {
-            if(operateface.closeattackinterval === 0){
-
+            if(player.beenattack == false){
+                if(operateface.closeattackinterval === 0){
+                    closeattacktimer.running = true
+                    operateface.closeattackinterval++
                     if(player.actionend==true){
-
                         player.imagenumber=1
                         player.actionend=false
                         player.playeraction=5
                     }
-                //socket.sendState("fire", isAttack)
-                var attackoffset
-                if(player.x >enemy.x)
-                    attackoffset = Qt.point(-gameScene.gridSize*2.5,gameScene.gridSize)
-                else
-                    attackoffset = Qt.point(gameScene.gridSize*2.5,gameScene.gridSize)
-                closeattacktimer.running = true
-                operateface.closeattackinterval++
-                entityManager.createEntityFromComponentWithProperties(closerangattack, {
-                                                                          x:player.x+attackoffset.x,
-                                                                          y:0/*+ attackoffset.y*/
-                                                                      })
+                    socket.sendState("attack", true)
+                    attackmy()
+                }
             }
         }
 
@@ -398,15 +421,6 @@ SceneBase {
         }
     }
 
-//    Timer{
-//        id:jumptimer
-//        interval: 2000
-//        repeat: false
-//        running: false
-//        onTriggered: {
-//            operateface.jumpinterval=0
-//        }
-//    }
 
     function fireother(){
         var offset = Qt.point(gameScene.gridSize, 0)
@@ -453,7 +467,51 @@ SceneBase {
                                                                   x2: player.x,
                                                                   y2: player.y
                                                               })
+    }
+    function attackmy(){
+        var attackoffset
+        if(playerID==1){
 
+            if(player.x >enemy.x)
+                attackoffset = Qt.point(-gameScene.gridSize*6,gameScene.gridSize)
+            else
+                attackoffset = Qt.point(gameScene.gridSize*2.5,gameScene.gridSize)
+        }
+        else if(playerID==2){
+            if(player.x >enemy.x)
+                attackoffset = Qt.point(-gameScene.gridSize*6,gameScene.gridSize)
+            else
+                attackoffset = Qt.point(gameScene.gridSize*2.5,gameScene.gridSize)
+
+        }
+
+        entityManager.createEntityFromComponentWithProperties(closerangattack, {
+                                                                  x:player.x+attackoffset.x,
+                                                                  y:0/*+ attackoffset.y*/
+                                                              })
+    }
+
+    function attackother(){
+        var attackoffset
+        if(playerID==1){
+
+            if(player.x <enemy.x)
+                attackoffset = Qt.point(-gameScene.gridSize*6,gameScene.gridSize)
+            else
+                attackoffset = Qt.point(gameScene.gridSize*2.5,gameScene.gridSize)
+        }
+        else if(playerID==2){
+            if(player.x <enemy.x)
+                attackoffset = Qt.point(-gameScene.gridSize*6,gameScene.gridSize)
+            else
+                attackoffset = Qt.point(gameScene.gridSize*2.5,gameScene.gridSize)
+
+        }
+
+        entityManager.createEntityFromComponentWithProperties(closerangattack, {
+                                                                  x:enemy.x+attackoffset.x,
+                                                                  y:0/*+ attackoffset.y*/
+                                                              })
     }
 
 }

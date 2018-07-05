@@ -24,6 +24,7 @@ UdpSocket::UdpSocket(QObject *parent)
     connect(&json, &JsonAnalysis::findgameChanged, this, &UdpSocket::findgameChanged);
     connect(&json, &JsonAnalysis::jumpChanged, this, &UdpSocket::jumpChanged);
 	connect(&json, &JsonAnalysis::quitRoomChanged, this, &UdpSocket::quitRoomChanged);
+    connect(&json, &JsonAnalysis::closeattackChanged, this, &UdpSocket::closeattackChanged);
 }
 
 UdpSocket::~UdpSocket()

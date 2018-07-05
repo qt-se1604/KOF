@@ -25,7 +25,7 @@ int main()
 		jsReader.parse(jsonString, root);
 		//relay message
 		if(root.isMember("x") || root.isMember("y")
-				|| root.isMember("fire") || root.isMember("jump"))
+                || root.isMember("fire") || root.isMember("jump") || root.isMember("attack"))
 			manage.playerOnlineStateUpdateMessage(data, PlayerRequest::relay);
 
 		//command to server

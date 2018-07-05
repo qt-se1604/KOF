@@ -28,6 +28,9 @@ EntityBase {
     property bool  playerface: true
     property bool actionend:true
 
+    property bool beenattack:false
+    signal beenAttacked
+
     state: contacts > 0 ? "walking" : "jumping"
     onStateChanged: console.debug("player.state " + state)
 
@@ -58,6 +61,10 @@ EntityBase {
             var collidedEntity = other.getBody().target
             console.debug("collided with entity", collidedEntity.entityType)
             if (collidedEntity.entityType === "Enemyprojectile") {
+                beenattack = true
+                beenAttacked()
+                playeraction=6
+                imagenumber=1
                 if(blood>0)
                 {
                     blood-=10
@@ -157,6 +164,7 @@ EntityBase {
                 case 4:playerImage.source="../../assets/player/action/zou5.png";break;
 
                 case 5:playerImage.source="../../assets/player/action/zou6.png";break;
+                    default:break;
                 }
             }
             if(playeraction==2){
@@ -177,6 +185,7 @@ EntityBase {
                 case 2:playerImage.source="../../assets/player/action/zou5.png";break;
 
                 case 1:playerImage.source="../../assets/player/action/zou6.png";break;
+                    default:break;
                 }
             }
             if(playeraction==3){
@@ -196,6 +205,7 @@ EntityBase {
                 case 3:playerImage.source="../../assets/player/action/fire/fire3.png";break;
                 case 4:playerImage.source="../../assets/player/action/fire/fire4.png";break;
                 case 5:playerImage.source="../../assets/player/action/fire/fire5.png";break;
+                    default:break;
                 }
             }
             if(playeraction==4){
@@ -216,7 +226,9 @@ EntityBase {
                 case 4:playerImage.source="../../assets/player/action/jump/jump4.png";break;
                 case 5:playerImage.source="../../assets/player/action/jump/jump5.png";break;
                 case 6:playerImage.source="../../assets/player/action/jump/jump6.png";break;
+
                 case 7:playerImage.source="../../assets/player/action/jump/jump7.png";break;
+                    default:break;
 //                case 8:playerImage.source="../../assets/player/action/jump/jump.png";break;
 //                case 9:playerImage.source="../../assets/player/action/jump/jump9.png";break;
                 }
@@ -243,6 +255,25 @@ EntityBase {
                 case 7:playerImage.source="../../assets/player/action/closeattic/close7.png";break;
                 case 8:playerImage.source="../../assets/player/action/closeattic/close8.png";break;
 
+                    default:break;
+                }
+            }
+            if(playeraction==6){
+                playeractiontime.interval
+                        =100
+                if(imagenumber==5)
+                {
+                    imagenumber=1
+                    playeraction=0
+                    playeractiontime.interval=90
+                }
+                switch(imagenumber)
+                {
+                case 1:playerImage.source="../../assets/player/action/houtui/1.png";break;
+                case 2:playerImage.source="../../assets/player/action/houtui/2.png";break;
+                case 3:playerImage.source="../../assets/player/action/houtui/3.png";break;
+                case 4:playerImage.source="../../assets/player/action/houtui/4.png";break;
+                 default:break;
                 }
             }
 
@@ -263,17 +294,6 @@ EntityBase {
                 case 3:playerImage.source="../../assets/player/cao13.png";break;
 
                 case 4:playerImage.source="../../assets/player/cao14.png";break;
-
-                case 5:playerImage.source="../../assets/player/cao15.png";break;
-                case 6:playerImage.source="../../assets/player/cao16.png";break;
-
-                case 7:playerImage.source="../../assets/player/cao17.png";break;
-
-                case 8:playerImage.source="../../assets/player/cao18.png";break;
-
-                case 9:playerImage.source="../../assets/player/cao19.png";break;
-
-                case 10:playerImage.source="../../assets/player/cao20.png";break;
 
                 default:break;
                 }
@@ -296,6 +316,7 @@ EntityBase {
                 case 4:playerImage.source="../../assets/player/action/zou15.png";break;
 
                 case 5:playerImage.source="../../assets/player/action/zou16.png";break;
+                    default:break;
                 }
             }
             if(playeraction==2){
@@ -316,6 +337,7 @@ EntityBase {
                 case 2:playerImage.source="../../assets/player/action/zou15.png";break;
 
                 case 1:playerImage.source="../../assets/player/action/zou16.png";break;
+                    default:break;
                 }
             }
             if(playeraction==3){
@@ -335,6 +357,7 @@ EntityBase {
                 case 3:playerImage.source="../../assets/player/action/fire/fire14.png";break;
                 case 4:playerImage.source="../../assets/player/action/fire/fire15.png";break;
                 case 5:playerImage.source="../../assets/player/action/fire/fire16.png";break;
+                    default:break;
                 }
             }
             if(playeraction==4){
@@ -356,6 +379,7 @@ EntityBase {
                 case 5:playerImage.source="../../assets/player/action/jump/jump15.png";break;
                 case 6:playerImage.source="../../assets/player/action/jump/jump14.png";break;
                 case 7:playerImage.source="../../assets/player/action/jump/jump13.png";break;
+                    default:break;
 //                case 8:playerImage.source="../../assets/player/action/jump/jump.png";break;
 //                case 9:playerImage.source="../../assets/player/action/jump/jump9.png";break;
                 }
@@ -381,7 +405,31 @@ EntityBase {
                 case 6:playerImage.source="../../assets/player/action/closeattic/close16.png";break;
                 case 7:playerImage.source="../../assets/player/action/closeattic/close17.png";break;
                 case 8:playerImage.source="../../assets/player/action/closeattic/close18.png";break;
+                    default:break;
 
+                }
+            }if(playeraction==6){
+                playeractiontime.interval
+                =100
+                if(imagenumber==5)
+                {
+                    imagenumber=1
+                    playeraction=0
+                    playeractiontime.interval=90
+
+
+                }
+                switch(imagenumber)
+                {
+                case 1:playerImage.source="../../assets/player/action/houtui/11.png";break;
+                case 2:playerImage.source="../../assets/player/action/houtui/12.png";break;
+                case 3:playerImage.source="../../assets/player/action/houtui/13.png";break;
+                case 4:playerImage.source="../../assets/player/action/houtui/14.png";break;
+                case 5:playerImage.source="../../assets/player/action/houtui/15.png";break;
+                case 6:playerImage.source="../../assets/player/action/houtui/16.png";break;
+                case 7:playerImage.source="../../assets/player/action/houtui/17.png";break;
+                case 8:playerImage.source="../../assets/player/action/houtui/18.png";break;
+                    default:break;
                 }
             }
 
