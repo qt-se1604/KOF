@@ -118,14 +118,14 @@ SceneBase{
         anchors.fill: parent
 
         onClicked: {
-          // switch between enabled and disabled
+
           if(settings.soundEnabled) {
             settings.soundEnabled = false
           }
           else {
             settings.soundEnabled = true
 
-            // play sound to signal, that sound is now on
+
 
           }
         }

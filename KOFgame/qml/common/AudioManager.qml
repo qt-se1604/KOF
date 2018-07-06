@@ -57,9 +57,7 @@ Item {
 
     SoundEffectVPlay{
         id: playerHit
-//       loops: 10
-//       volume: 1
-       source:"../../assets/music/dazhao2.wav"
+        source:"../../assets/music/dazhao2.wav"
     }
     SoundEffectVPlay{
         id:timeover
@@ -131,8 +129,6 @@ Item {
             playerJump.play()
         else if(sound === "playerHit"){
             playerHit.play()
-//            console.log(playerHit.status)
-//             console.log("11111111111111111111111111")
         }else if(sound === "hited")
         {
             hited.play()

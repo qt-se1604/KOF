@@ -24,7 +24,7 @@ GameWindow {
 
     UdpSocket {
         id: socket
-        url: "127.0.0.1:10000"
+        url: "10.253.197.51:10000"
 
         onXChanged: {
             gameScene.enemyplayer.x = xValue
