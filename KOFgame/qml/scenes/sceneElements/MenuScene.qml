@@ -48,8 +48,10 @@ SceneBase{
         MouseArea{
             anchors.fill:  parent
 			onClicked: {
+                audioManager.playSound("option")
                 entergamePressed()
                 servercomein()
+
             }
         }
     }
@@ -67,9 +69,11 @@ SceneBase{
         MouseArea{
             anchors.fill:  parent
             onClicked: {
+                audioManager.playSound("option")
                 socket.sendState("joinRoom",true)
                 entergamePressed()
                 clientcomein()
+
             }
         }
     }
@@ -122,7 +126,7 @@ SceneBase{
             settings.soundEnabled = true
 
             // play sound to signal, that sound is now on
-            audioManager.playSound("playerJump")
+
           }
         }
       }
@@ -131,7 +135,7 @@ SceneBase{
     Text{
         anchors.left: parent.left
         anchors.top: parent.top
-        text: "v0.9"
+        text: "v1.0"
                 color: "#E3E3E3"
    }
 

@@ -68,9 +68,14 @@ EntityBase {
                 beenAttacked()
                 playeraction=6
                 imagenumber=1
+                audioManager.playSound("hited1")
                 if(blood>0)
                 {
                     blood-=10
+                    if(blood<=0)
+                    {
+                         audioManager.playSound("KO")
+                    }
                 }
                 collidedEntity.removeEntity()
             }
@@ -79,8 +84,15 @@ EntityBase {
                 beenCloseAttacked()
                 playeraction=6
                 imagenumber=1
+                audioManager.playSound("hited1")
                 if(blood>0){
                     blood -= 20
+                    if(blood<=0)
+                    {
+                         audioManager.playSound("KO")
+
+
+                    }
                 }
             }
         }
@@ -254,7 +266,7 @@ EntityBase {
                     playeraction=0
                     playeractiontime.interval=90
                     actionend=true
-                    closewy.stop()
+//                    closewy.stop()
                 }
                 switch(imagenumber)
                 {

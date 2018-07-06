@@ -17,8 +17,15 @@ SceneBase{
     property int timebuttom:0
     property int musicbuttom:0
     property int backgroundbuttom:0
+    Rectangle{
+        anchors.fill: parent
+        color:"white"
+    }
 
-
+    Image {
+ anchors.fill: parent
+        source: "../../../assets/ui/setting.png"
+    }
     MultiResolutionImage{
         id: gamestartimage
         anchors.horizontalCenter: parent.horizontalCenter
@@ -30,6 +37,7 @@ SceneBase{
         MouseArea{
             anchors.fill:parent
 			onClicked: {
+                 audioManager.playSound("option")
 
                 if(timebuttom===0){
                     time60()
@@ -75,7 +83,7 @@ SceneBase{
 //        source: "../../../assets/ui/menuB/MenuB01.png"
         Text{
             text:"时间："
-            color: "white"
+            color: "black"
         }
     }
     MultiResolutionImage{
@@ -90,7 +98,7 @@ SceneBase{
 //        source: "../../../assets/ui/menuB/MenuB01.png"
         Text{
             text:"音乐："
-            color:"white"
+            color:"black"
         }
     }
     MultiResolutionImage{
@@ -105,7 +113,7 @@ SceneBase{
         Text{
             text:"地图："
             anchors.fill:parent
-            color: "white"
+            color: "black"
         }
     }
 
@@ -123,6 +131,7 @@ SceneBase{
         MouseArea{
             anchors.fill: parent
             onClicked: {
+                 audioManager.playSound("option")
                 timebuttom = timebuttom-1
                 if(timebuttom<0)
                     timebuttom = 1
@@ -141,7 +150,7 @@ SceneBase{
 //        source: timebuttom>0? "../../../assets/ui/menuB/MenuB01.png" : "../../../assets/ui/menuB/1v2C.png"
         Text{
             text:timebuttom>0? "60":"90"
-            color: "white"
+            color: "black"
         }
     }
 
@@ -159,6 +168,7 @@ SceneBase{
         MouseArea{
             anchors.fill: parent
             onClicked: {
+                 audioManager.playSound("option")
                 timebuttom = timebuttom+1
                 timebuttom = timebuttom%2
             }
@@ -179,6 +189,7 @@ SceneBase{
         MouseArea{
             anchors.fill: parent
             onClicked: {
+                 audioManager.playSound("option")
                 musicbuttom = musicbuttom-1
                 if(musicbuttom<0)
                     musicbuttom = 1
@@ -197,7 +208,7 @@ SceneBase{
 //        source: musicbuttom > 0? "../../../assets/ui/menuB/MenuB01.png" : "../../../assets/ui/menuB/1v2C.png"
         Text{
             text:musicbuttom > 0?"1":"2"
-            color: "white"
+            color: "black"
         }
     }
 
@@ -214,6 +225,7 @@ SceneBase{
         MouseArea{
             anchors.fill: parent
             onClicked: {
+                 audioManager.playSound("option")
                 musicbuttom = musicbuttom+1
                 musicbuttom = musicbuttom%2
             }
@@ -234,6 +246,7 @@ SceneBase{
         MouseArea{
             anchors.fill: parent
             onClicked: {
+                 audioManager.playSound("option")
                 backgroundbuttom = backgroundbuttom-1
                 if(backgroundbuttom<0)
                     backgroundbuttom = 1
@@ -252,7 +265,7 @@ SceneBase{
 //        source: backgroundbuttom > 0? "../../../assets/ui/menuB/MenuB01.png" : "../../../assets/ui/menuB/1v2C.png"
         Text{
             text:backgroundbuttom > 0?"1":"2"
-            color: "white"
+            color: "black"
         }
     }
 
@@ -268,6 +281,7 @@ SceneBase{
         MouseArea{
             anchors.fill: parent
             onClicked: {
+                 audioManager.playSound("option")
                 backgroundbuttom = backgroundbuttom+1
                 backgroundbuttom = backgroundbuttom%2
             }

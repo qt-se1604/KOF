@@ -31,18 +31,28 @@ EntityBase {
             if (collidedEntity.entityType === "projectile") {
                 enemyaction = 6
                 imagenumber=1
+                 audioManager.playSound("hited1")
                 if(blood>0)
                 {
                     blood-=10
+                    if(blood<=0)
+                    {
+                         audioManager.playSound("KO")
+                    }
                 }
                 collidedEntity.removeEntity()
             }
             else if (collidedEntity.entityType === "closerangattack") {
                 enemyaction = 6
                 imagenumber=1
+                  audioManager.playSound("hited1")
                 if(blood>0)
                 {
                     blood-=20
+                    if(blood<=0)
+                    {
+                         audioManager.playSound("KO")
+                    }
                 }
             }
         }
@@ -193,7 +203,7 @@ EntityBase {
                    enemyaction=0
                     enemyactiontime.interval=90
                     actionend=true
-                    closewy.stop()
+
                 }
                 switch(imagenumber)
                 {

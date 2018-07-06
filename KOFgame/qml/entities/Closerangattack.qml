@@ -1,6 +1,7 @@
 import QtQuick 2.0
 import VPlay 2.0
 import "../scenes"
+import "../common"
 
 EntityBase {
     width: gameScene.gridSize*6
@@ -49,7 +50,9 @@ EntityBase {
         repeat: false
         running: true
         onTriggered: {
+
             removeEntity()
+
 //            attackfinish()
         }
     }
@@ -69,7 +72,13 @@ EntityBase {
     {
         if(imagenumber==18)
         {
+            if(audioManager.hit.playing)
+            {
+                audioManager.stopaction(audioManager.playerHit)
+            }
+
             imagenumber=1
+
         }
         switch(imagenumber)
         {

@@ -12,13 +12,14 @@ SceneBase {
 
 	MultiResolutionImage {
 		anchors.fill: parent
-		source: "../../../assets/background/over.jpg"
+        source: "../../../assets/ui/finish1.png"
 	}
 
     Text{
         id: scoreshow
         anchors.centerIn: parent
         text: gameWon ? "You won :)" : "You lost"
+        color: "white"
     }
     PlatformerImageButton{
         width: 60

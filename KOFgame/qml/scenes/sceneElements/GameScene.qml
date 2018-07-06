@@ -92,8 +92,9 @@ SceneBase {
             id: timeeetotal
             running: false
             repeat: false
-			interval: gametime == 1 ? 60000 : 90000
-			onTriggered: {
+            interval: gametime == 1 ? 62000 : 92000
+            onTriggered: {
+
 				resetGame()
                 toGameOver()
             }
@@ -104,7 +105,15 @@ SceneBase {
             running: false
             interval: 1000
             repeat: true
-            onTriggered: gametruetime.totaltime -= 1
+            onTriggered: {
+                gametruetime.totaltime -= 1
+                if(gametruetime.totaltime==0){
+
+                    audioManager.playSound("timeover")
+                }
+
+            }
+
         }
         Text{
             anchors.horizontalCenter: parent.horizontalCenter
@@ -279,6 +288,7 @@ SceneBase {
         target: socket
         onFireChanged: {
             //            console.log("fire")
+
             if(isFire){
                 if(enemy.actionend==true){
                     enemy.imagenumber=1
@@ -292,13 +302,17 @@ SceneBase {
     Connections {
         target: socket
         onCloseattackChanged: {
-            console.log("fdssssssssssssssssssssss")
+
             if(isattack){
                 if(enemy.actionend==true){
+                    console.debug("playerhitplayerhitplayerhit")
+                     audioManager.playSound("playerHit")
+//                    audioManager.actionMusic(audioManager.playerHit)
                     enemy.imagenumber=1
                     enemy.actionend=false
                     enemy.enemyaction=5
                 }
+
                 attackother()
             }
         }
@@ -307,6 +321,7 @@ SceneBase {
     Connections{
         target: socket
         onJumpChanged:{
+
             enemy.enemyaction=4
             enemy.imagenumber = 1
         }
@@ -367,6 +382,7 @@ SceneBase {
                     player.playeraction=2
                 }
                 player.imagenumber=1
+
             }
         }
         onAttackPressed: {
@@ -405,6 +421,7 @@ SceneBase {
                         player.actionend=false
                         player.playeraction=5
                     }
+                    audioManager.playSound("playerHit")
                     socket.sendState("attack", true)
                     attackmy()
                 }
@@ -462,6 +479,7 @@ SceneBase {
                         x2: enemy.x,
                         y2: enemy.y
                     })
+
     }
 
     function firemy(){

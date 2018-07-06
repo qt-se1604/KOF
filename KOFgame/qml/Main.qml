@@ -17,6 +17,7 @@ GameWindow {
     property int setmusic: 0
     property int setbackground:0
 
+
     onActiveSceneChanged:{
         audioManager.handleMusic()
     }
@@ -71,7 +72,7 @@ GameWindow {
         if(gameWindow.state === "game") {
             gameScene.timeeetotal.restart()
             gameScene.timeereduce.restart()
-            gametruetime.totaltime = settime
+            gameScene.totaltime = settime
         }
 		finishScene.againButton.enabled = true
     }

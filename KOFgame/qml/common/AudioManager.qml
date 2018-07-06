@@ -6,6 +6,9 @@ Item {
     id:audioManager
 
     Component.onCompleted: handleMusic()
+    property alias playerHit:playerHit
+    property alias menuMusic:menuMusic
+//    property alias hit: hit
 
     /**
      * Background Music ----------------------------------
@@ -24,12 +27,12 @@ Item {
     BackgroundMusic {
         id: gameMusic1
         autoPlay: false
-        source: "../../assets/audio/MenuMusic/S2.mp3"
+        source:"../../assets/music/background2.mp3"
     }
     BackgroundMusic {
         id: gameMusic2
         autoPlay: false
-        source: "../../assets/audio/MenuMusic/S2.mp3"
+        source:"../../assets/music/background1.mp3"
     }
     BackgroundMusic{
         id: loadingMusic
@@ -46,14 +49,38 @@ Item {
     /**
      * Sounds ----------------------------------
      */
+
     SoundEffectVPlay {
         id: click
         source: "../../assets/audio/sounds/click1.wav"
     }
 
+    SoundEffectVPlay{
+        id: playerHit
+//       loops: 10
+//       volume: 1
+       source:"../../assets/music/dazhao2.wav"
+    }
+    SoundEffectVPlay{
+        id:timeover
+        source: "../../assets/music/timeover.wav"
+    }
+    SoundEffectVPlay{
+        id:hited1
+        source: "../../assets/music/sddj.wav"
+    }
     SoundEffectVPlay {
-        id: start
-        source: "../../assets/audio/sounds/yahoo.wav"
+       id: hited
+        source: "../../assets/music/hited.wav"
+    }
+    SoundEffectVPlay{
+        id:ko
+        source: "../../assets/music/KO.wav"
+
+    }
+    SoundEffectVPlay{
+        id:option
+        source: "../../assets/music/option.wav"
     }
 
     // this function sets the music, depending on the current scene and the gameScene's state
@@ -94,41 +121,42 @@ Item {
 
         // play the music
         music.play()
-        console.debug("2")
+
     }
+
 
     // play the sound effect with the given name
     function playSound(sound) {
         if(sound === "playerJump")
             playerJump.play()
-        else if(sound === "playerHit")
+        else if(sound === "playerHit"){
             playerHit.play()
-        else if(sound === "playerDie")
-            playerDie.play()
-        else if(sound === "playerInvincible")
+//            console.log(playerHit.status)
+//             console.log("11111111111111111111111111")
+        }else if(sound === "hited")
+        {
+            hited.play()
+        }else if(sound==="timeover"){
+
+            timeover.play()
+        }
+        else if(sound==="KO"){
+
+            ko.play()
+        }else if(sound==="option"){
+
+            option.play()
+        }
+        else if(sound==="hited1")
+        {
+            hited1.play()
+        }else if(sound === "playerInvincible")
             playerInvincible.play()
-        else if(sound === "collectCoin")
-            collectCoin.play()
-        else if(sound === "collectMushroom")
-            collectMushroom.play()
         else if(sound === "finish")
+        {
             finish.play()
-        else if(sound === "opponentWalkerDie")
-            opponentWalkerDie.play()
-        else if(sound === "opponentJumperDie")
-            opponentJumperDie.play()
-        else if(sound === "start")
-            start.play()
-        else if(sound === "click")
-            click.play()
-        else if(sound === "dragEntity")
-            dragEntity.play()
-        else if(sound === "createOrDropEntity")
-            createOrDropEntity.play()
-        else if(sound === "removeEntity")
-            removeEntity.play()
-        else
             console.debug("unknown sound name:", sound)
+        }
     }
 
     // stop the sound effect with the given name
@@ -137,6 +165,9 @@ Item {
             playerInvincible.stop()
         else
             console.debug("unknown sound name:", sound)
+    }
+    function stopaction(music){
+        music.stop()
     }
 
 
