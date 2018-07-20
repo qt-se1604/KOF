@@ -95,8 +95,7 @@ SceneBase {
             interval: gametime == 1 ? 62000 : 92000
             onTriggered: {
 
-				resetGame()
-                toGameOver()
+
             }
         }
 
@@ -108,8 +107,9 @@ SceneBase {
             onTriggered: {
                 gametruetime.totaltime -= 1
                 if(gametruetime.totaltime==0){
-
                     audioManager.playSound("timeover")
+                    resetGame()
+                    toGameOver()
                 }
 
             }
@@ -142,7 +142,7 @@ SceneBase {
             id: physicsWorld
             gravity: Qt.point(0, 20)
             debugDrawVisible: false // enable this for physics debugging
-            z: 1000
+           
 
             onPreSolve: {
                 //this is called before the Box2DWorld handles contact events
@@ -201,6 +201,8 @@ SceneBase {
             x: playerID == 1 ? 11 * gameScene.gridSize : 18.5 * gameScene.gridSize
             y: playerID == 1 ? 4 * gameScene.gridSize : 4 * gameScene.gridSize
             onXChanged: {
+               
+
                 if(enemy.x<= 0 ){
                     enemy.x = 0
                 }

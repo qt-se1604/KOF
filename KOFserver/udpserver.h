@@ -25,6 +25,7 @@ class UdpServer {
 
 public:
     static UdpServer *getServer();
+    ~UdpServer();
 
 private:
     UdpServer();

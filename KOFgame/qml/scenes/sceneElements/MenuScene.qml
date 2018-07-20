@@ -38,7 +38,12 @@ SceneBase{
     MultiResolutionImage{
         id: severstarter
         //fillMode: Image.PreserveAspectFit
-        source: "../../../assets/ui/menuB/1v2C.png"
+        //source: "../../../assets/ui/menuB/1v2C.png"
+        Text{
+            text:"创建房间"
+            anchors.fill: parent
+        }
+
         width: 90
         height: 30
 
@@ -58,7 +63,13 @@ SceneBase{
     MultiResolutionImage{
         id: clienttarter
         fillMode: Image.PreserveAspectFit
-        source: "../../../assets/ui/menuB/1vcC.png"
+       // source: "../../../assets/ui/menuB/1vcC.png"
+        Text
+        {
+            text:"加入房间"
+            anchors.fill: parent
+        }
+
         width: 90
         height: 30
 

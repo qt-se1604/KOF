@@ -12,6 +12,11 @@ UdpServer *UdpServer::getServer()
     return m_server;
 }
 
+UdpServer::~UdpServer()
+{
+    close(m_fd);
+}
+
 UdpServer::UdpServer()
 {
     struct sockaddr_in addr;
